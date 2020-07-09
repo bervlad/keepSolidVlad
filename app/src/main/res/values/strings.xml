@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">app</string>
+    <string name="input_activity_text">Input here</string>
+    <string name="text_insert">Please insert text here</string>
+    <string name="press_text_send">Press</string>
+    <string name="ok_button">ok</string>
+    <string name="cancel_button">cancel</string>
 </resources>
