@@ -1,34 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_input_activity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorText"
-        android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginEnd="@dimen/default_margin"
-        android:layout_marginBottom="@dimen/default_margin"
-        android:text="@string/input_activity_text"
-        android:textSize="@dimen/title_text_size" />
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/et_name_input"
+    <LinearLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginEnd="@dimen/default_margin"
-        android:hint="@string/text_insert" />
+        android:gravity="center"
+        android:layout_below="@id/toolbar"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/press_text_send" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_input_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary"
+
+            android:text="@string/input_activity_text"
+            android:textSize="@dimen/title_text_size"
+            tools:ignore="SpUsage"
+
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            />
 
 
-</LinearLayout>
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_name_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:hint="@string/text_insert"
+
+            android:layout_below="@id/tv_input_activity"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/default_margin"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/press_text_send"
+            android:backgroundTint="?attr/colorPrimaryDark"
+            android:textColor="@android:color/white"
+
+            android:layout_below="@id/et_name_input"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/default_margin"
+            />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

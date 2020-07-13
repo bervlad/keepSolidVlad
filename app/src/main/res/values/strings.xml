@@ -5,4 +5,6 @@
     <string name="press_text_send">Press</string>
     <string name="ok_button">ok</string>
     <string name="cancel_button">cancel</string>
+    <string name="toolbar_title_main_activity">Main activity</string>
+    <string name="toolbar_title_second_activity">Second Activity</string>
 </resources>

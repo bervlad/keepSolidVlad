@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-public class SecondActivity extends AppCompatActivity {
+import com.example.app.base.BaseActivity;
+
+public class SecondActivity extends BaseActivity {
     private String someString;
     private AppCompatButton okBtn;
     private AppCompatButton cancelBtn;
@@ -26,6 +28,8 @@ public class SecondActivity extends AppCompatActivity {
             someString = getIntent().getStringExtra(Constants.EXTRA_NAME);
             showNameToast(someString);
         }
+
+        initToolBar(getString(R.string.toolbar_title_second_activity));
         setListeners();
     }
 

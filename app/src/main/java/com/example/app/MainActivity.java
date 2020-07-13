@@ -13,7 +13,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.app.base.BaseActivity;
+
+public class MainActivity extends BaseActivity {
 
     private AppCompatEditText editText;
     private AppCompatButton sendBtn;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         sendBtn = findViewById(R.id.btn_send);
         titleText = findViewById(R.id.tv_input_activity);
 
+        initToolBar (getString(R.string.toolbar_title_main_activity));
         setListeners();
         
     }
