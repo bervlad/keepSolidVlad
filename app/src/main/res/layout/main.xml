@@ -47,12 +47,11 @@
             />
 
         <androidx.appcompat.widget.AppCompatButton
+            style="@style/AppButton"
             android:id="@+id/btn_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/press_text_send"
-            android:backgroundTint="?attr/colorPrimaryDark"
-            android:textColor="@android:color/white"
 
             android:layout_below="@id/et_name_input"
             android:layout_centerHorizontal="true"
