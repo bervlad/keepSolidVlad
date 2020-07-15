@@ -22,15 +22,9 @@
             android:id="@+id/tv_input_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/primary"
-
             android:text="@string/input_activity_text"
             android:textSize="@dimen/title_text_size"
-            tools:ignore="SpUsage"
-
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            />
+            tools:ignore="SpUsage" />
 
 
         <androidx.appcompat.widget.AppCompatEditText
@@ -40,9 +34,6 @@
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
             android:hint="@string/text_insert"
-
-            android:layout_below="@id/tv_input_activity"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/default_margin"
             />
 
@@ -53,8 +44,6 @@
             android:layout_height="wrap_content"
             android:text="@string/press_text_send"
 
-            android:layout_below="@id/et_name_input"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/default_margin"
             />
 

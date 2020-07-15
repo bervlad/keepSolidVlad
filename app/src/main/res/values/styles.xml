@@ -8,6 +8,8 @@
         <item name="background">@color/primary</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="colorOnBackground">@android:color/white</item>
+        <item name="android:textColorPrimary">@color/primary_text</item>
     </style>
 
     <style name="AppButton" parent="Widget.AppCompat.Button.Colored">

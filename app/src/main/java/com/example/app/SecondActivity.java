@@ -29,7 +29,7 @@ public class SecondActivity extends BaseActivity {
             showNameToast(someString);
         }
 
-        initToolBar(getString(R.string.toolbar_title_second_activity));
+        initToolBarWithNav(getString(R.string.toolbar_title_second_activity));
         setListeners();
     }
 
