@@ -1,7 +1,7 @@
 package com.example.app;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,54 +9,34 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.app.base.BaseActivity;
+import com.example.app.collections.Car;
+
+import fragment.FragmentViewer;
+import utils.Constants;
 
 public class SecondActivity extends BaseActivity {
-    private String someString;
-    private AppCompatButton okBtn;
-    private AppCompatButton cancelBtn;
-
+    private Car car;
+    private FragmentViewer fragmentViewer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-
-        okBtn = findViewById(R.id.btn_ok);
-        cancelBtn = findViewById(R.id.btn_cancel);
+        initToolBarWithNav(getString(R.string.toolbar_title_second_activity));
 
         if (getIntent().getExtras() != null) {
-            someString = getIntent().getStringExtra(Constants.EXTRA_NAME);
-            showNameToast(someString);
+            car = getIntent().getParcelableExtra(Constants.EXTRA_CAR);
         }
 
-        initToolBarWithNav(getString(R.string.toolbar_title_second_activity));
-        setListeners();
+       String inputText = car.toString() ;
+
+        fragmentViewer = (FragmentViewer) getSupportFragmentManager().findFragmentById(R.id.fragment_two);
+
+        fragmentViewer.setText(inputText);
+
     }
 
-    private void showNameToast(String name) {
-        Toast.makeText(SecondActivity.this, name, Toast.LENGTH_LONG).show();
-    }
 
-    private void setListeners() {
-
-        okBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        });
-
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                setResult(RESULT_CANCELED, intent);
-                finish();
-            }
-        });
-    }
 
 
 }
