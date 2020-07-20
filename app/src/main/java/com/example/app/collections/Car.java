@@ -4,10 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Car implements Parcelable {
-    private int maxSpeed, capacity; String color, name;
-    public Car() {
+    private int maxSpeed, capacity;
+    private String color, name;
 
-    }
 
     public Car (String name, String color,  int maxSpeed, int capacity) {
         this.maxSpeed=maxSpeed;
@@ -48,17 +47,6 @@ public class Car implements Parcelable {
         }
     };
 
-    public void setMaxSpeed(int maxSpeed) {
-        this.maxSpeed = maxSpeed;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
 
     public void setName(String name) {
         this.name = name;

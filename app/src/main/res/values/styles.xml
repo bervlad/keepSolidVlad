@@ -18,7 +18,7 @@
     </style>
     
     <style name="ToolBar" parent="Widget.AppCompat.Toolbar">
-
+        <item name="android:titleTextColor">@android:color/white </item>
     </style>
 
 </resources>

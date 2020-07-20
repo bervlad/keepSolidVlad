@@ -1,4 +1,4 @@
-package fragment;
+package com.example.app.fragment;
 
 import android.os.Bundle;
 
@@ -14,7 +14,7 @@ import com.example.app.collections.Car;
 
 import java.util.ArrayList;
 
-import utils.listeners.ObjectSelectListener;
+import com.example.app.utils.listeners.ObjectSelectListener;
 
 
 public class FragmentChooser extends Fragment {
@@ -22,7 +22,6 @@ public class FragmentChooser extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    private AppCompatButton btn1, btn2, btn3, btn4, btn5;
     private ArrayList <Car> models;
 
     private ObjectSelectListener objectSelectListener;
@@ -44,11 +43,11 @@ public class FragmentChooser extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_chooser, container, false);
-        btn1 = v.findViewById(R.id.btn_1);
-        btn2 = v.findViewById(R.id.btn_2);
-        btn3 = v.findViewById(R.id.btn_3);
-        btn4 = v.findViewById(R.id.btn_4);
-        btn5 = v.findViewById(R.id.btn_5);
+        AppCompatButton btn1 = v.findViewById(R.id.btn_1);
+        AppCompatButton btn2 = v.findViewById(R.id.btn_2);
+        AppCompatButton btn3 = v.findViewById(R.id.btn_3);
+        AppCompatButton btn4 = v.findViewById(R.id.btn_4);
+        AppCompatButton btn5 = v.findViewById(R.id.btn_5);
         ArrayList <Car> models = generateModels ();
 
         btn1.setText(models.get(0).getName());

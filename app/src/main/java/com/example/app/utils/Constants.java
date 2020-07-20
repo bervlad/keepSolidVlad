@@ -1,4 +1,4 @@
-package utils;
+package com.example.app.utils;
 
 public class Constants {
     public final static int NAME_REQUEST_CODE = 7632;

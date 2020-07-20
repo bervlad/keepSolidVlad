@@ -8,23 +8,18 @@ import com.example.app.collections.Car;
 
 import java.util.ArrayList;
 
-import fragment.FragmentChooser;
-import fragment.FragmentViewer;
-import utils.Constants;
-import utils.listeners.ObjectSelectListener;
+import com.example.app.fragment.FragmentChooser;
+import com.example.app.fragment.FragmentViewer;
+import com.example.app.utils.Constants;
+import com.example.app.utils.listeners.ObjectSelectListener;
 
 public class MainActivity extends BaseActivity {
 
-//    private AppCompatEditText editText;
-//    private AppCompatButton sendBtn;
-//    private AppCompatTextView titleText;
 
     private FragmentChooser fragmentChooser;
     private FragmentViewer fragmentViewer;
 
     boolean inLandscapeMode;
-
-    private ObjectSelectListener objectSelectListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +35,7 @@ public class MainActivity extends BaseActivity {
             fragmentViewer = (FragmentViewer) getSupportFragmentManager().findFragmentById(R.id.fragment_two);
         }
 
-        objectSelectListener = new ObjectSelectListener() {
+        ObjectSelectListener objectSelectListener = new ObjectSelectListener() {
 
             @Override
             public void btn1Selected() {
@@ -52,14 +47,17 @@ public class MainActivity extends BaseActivity {
                 displaySelected(1);
             }
 
+            @Override
             public void btn3Selected() {
                 displaySelected(2);
             }
 
+            @Override
             public void btn4Selected() {
                 displaySelected(3);
             }
 
+            @Override
             public void btn5Selected() {
                 displaySelected(4);
             }
@@ -68,18 +66,17 @@ public class MainActivity extends BaseActivity {
 
         fragmentChooser.setObjectSelectListener(objectSelectListener);
 
-
-//        setListeners();
         
     }
 
     private void displaySelected (int num) {
+        ArrayList<Car> models = fragmentChooser.getModels();
 
         if (inLandscapeMode) {
-            ArrayList<Car> models = fragmentChooser.getModels();
+
             fragmentViewer.setText(models.get(num).toString());
         } else {
-            ArrayList<Car> models = fragmentChooser.getModels();
+
             Intent explicitIntent = new Intent(MainActivity.this, SecondActivity.class);
             explicitIntent.putExtra(Constants.EXTRA_CAR, models.get(num));
             startActivity(explicitIntent);
@@ -87,49 +84,6 @@ public class MainActivity extends BaseActivity {
     }
 
 
-//    private void setListeners() {
-//
-//        sendBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                handleSendBtn();
-//            }
-//        });
-//    }
-
-//    private void showNameToast(String name) {
-//        Toast.makeText(MainActivity.this, name, Toast.LENGTH_LONG).show();
-//    }
-//
-//    private void handleSendBtn() {
-//        if (TextUtils.isEmpty(editText.getText())) {
-//            showNameToast("Empty input");
-//            return;
-//        }
-//
-//        Intent intent = new Intent();
-//        String textForDisplay =  editText.getText().toString();
-//        openSecondActivityForResult(textForDisplay);
-//
-//    }
-//
-//    public void openSecondActivityForResult(String text) {
-//        Intent explicitIntent = new Intent(MainActivity.this, SecondActivity.class);
-//        explicitIntent.putExtra(Constants.EXTRA_NAME, editText.getText().toString());
-//        startActivityForResult(explicitIntent, Constants.NAME_REQUEST_CODE);
-//    }
-//
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == Constants.NAME_REQUEST_CODE) {
-//            if (resultCode == -1) {
-//                showNameToast("Success!");
-//            }
-//            else {
-//                editText.setText("");
-//            }
-//        }
-//    }
 
 
 }
