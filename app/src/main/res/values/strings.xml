@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">app</string>
-    <string name="input_activity_text">Input here</string>
+    <string name="input_activity_text">New car data</string>
     <string name="text_insert">Please insert text here</string>
     <string name="press_text_send">Press</string>
     <string name="ok_button">OK</string>
@@ -11,4 +11,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="textOne">One</string>
     <string name="textTwo">Two</string>
+    <string name="send_btn">Send</string>
+    <string name="car_name">Car name</string>
+    <string name="car_color">Car color</string>
+    <string name="car_max_speed">Car max speed</string>
+    <string name="car_capacity">Car capacity</string>
 </resources>

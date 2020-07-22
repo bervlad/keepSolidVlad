@@ -2,6 +2,10 @@ package com.example.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.base.BaseActivity;
 import com.example.app.collections.Car;
@@ -18,6 +22,7 @@ public class MainActivity extends BaseActivity {
 
     private FragmentChooser fragmentChooser;
     private FragmentViewer fragmentViewer;
+    RecyclerView recyclerView;
 
     boolean inLandscapeMode;
 
@@ -35,45 +40,56 @@ public class MainActivity extends BaseActivity {
             fragmentViewer = (FragmentViewer) getSupportFragmentManager().findFragmentById(R.id.fragment_two);
         }
 
+//        ObjectSelectListener objectSelectListener = new ObjectSelectListener() {
+//
+//            @Override
+//            public void btn1Selected() {
+//                displaySelected(0);
+//            }
+//
+//            @Override
+//            public void btn2Selected() {
+//                displaySelected(1);
+//            }
+//
+//            @Override
+//            public void btn3Selected() {
+//                displaySelected(2);
+//            }
+//
+//            @Override
+//            public void btn4Selected() {
+//                displaySelected(3);
+//            }
+//
+//            @Override
+//            public void btn5Selected() {
+//                displaySelected(4);
+//            }
+//
+//        };
+
+//
         ObjectSelectListener objectSelectListener = new ObjectSelectListener() {
-
             @Override
-            public void btn1Selected() {
-                displaySelected(0);
+            public void selected(int num) {
+                displaySelected (num);
             }
 
-            @Override
-            public void btn2Selected() {
-                displaySelected(1);
+            public void buttonSelected () {
+                Intent explicitIntent = new Intent(MainActivity.this, InputActivity.class);
+                startActivityForResult(explicitIntent, Constants.NAME_REQUEST_CODE);
             }
-
-            @Override
-            public void btn3Selected() {
-                displaySelected(2);
-            }
-
-            @Override
-            public void btn4Selected() {
-                displaySelected(3);
-            }
-
-            @Override
-            public void btn5Selected() {
-                displaySelected(4);
-            }
-
         };
-
         fragmentChooser.setObjectSelectListener(objectSelectListener);
 
         
     }
 
-    private void displaySelected (int num) {
+    public void displaySelected (int num) {
         ArrayList<Car> models = fragmentChooser.getModels();
 
         if (inLandscapeMode) {
-
             fragmentViewer.setText(models.get(num).toString());
         } else {
 
@@ -83,7 +99,23 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.NAME_REQUEST_CODE) {
+            if (data != null) {
+                if (data.getExtras() != null) {
+                    showNameToast("Hello");
+                    Car newCar = getIntent().getParcelableExtra(Constants.EXTRA_CAR);
+                    // Car newCar = new Car ("Forddd", "ddasd", 123,12);
+                    fragmentChooser.addModel(newCar);
+                }
+            }
+        }
+    }
 
+    private void showNameToast(String name) {
+        Toast.makeText(MainActivity.this, name, Toast.LENGTH_LONG).show();
+    }
 
 
 }
