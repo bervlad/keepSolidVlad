@@ -105,7 +105,8 @@ public class MainActivity extends BaseActivity {
             if (data != null) {
                 if (data.getExtras() != null) {
                     showNameToast("Hello");
-                    Car newCar = getIntent().getParcelableExtra(Constants.EXTRA_CAR);
+                    Car newCar = data.getParcelableExtra(Constants.EXTRA_CAR);
+                     //= getIntent().getParcelableExtra(Constants.EXTRA_CAR);
                     // Car newCar = new Car ("Forddd", "ddasd", 123,12);
                     fragmentChooser.addModel(newCar);
                 }
