@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.example.app.collections.Car;
 import com.example.app.utils.Constants;
 
+import java.io.IOException;
+
 public class InputActivity extends AppCompatActivity {
     private AppCompatEditText carName;
     private AppCompatEditText carColor;
@@ -53,11 +55,15 @@ public class InputActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                handleSendBtn();
+                handleCancelBtn();
             }
         });
+    }
 
-
+    private void handleCancelBtn() {
+        Intent intent = new Intent();
+        setResult(RESULT_CANCELED, intent);
+        finish();
     }
 
     private void handleSendBtn() {
@@ -71,19 +77,19 @@ public class InputActivity extends AppCompatActivity {
         }
         else {
             Intent intent = new Intent();
-            Car newCar = new Car(carName.getText().toString(),
-                    carColor.getText().toString(),
-                    Integer.parseInt(maxSpeed.getText().toString()),
-                    Integer.parseInt(capacity.getText().toString() ));
 
-            Toast.makeText(InputActivity.this, newCar.getName(), Toast.LENGTH_LONG).show();
-            intent.putExtra(Constants.EXTRA_CAR, newCar);
+            try {
+                Car newCar = new Car(carName.getText().toString(),
+                        carColor.getText().toString(),
+                        Integer.parseInt(maxSpeed.getText().toString()),
+                        Integer.parseInt(capacity.getText().toString() ));
 
-            setResult(RESULT_OK, intent);
-            finish();
+                intent.putExtra(Constants.EXTRA_CAR, newCar);
+                setResult(RESULT_OK, intent);
+                finish();
+            } catch (IllegalArgumentException ex) {
+                Toast.makeText(InputActivity.this, R.string.illegal_argument, Toast.LENGTH_LONG).show();
+            }
         }
-
-
-
     }
 }

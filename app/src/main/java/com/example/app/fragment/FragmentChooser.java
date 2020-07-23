@@ -24,6 +24,9 @@ import com.example.app.utils.listeners.ObjectSelectListener;
 import com.example.app.utils.listeners.OnCarRecyclerItemClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import static com.example.app.utils.Constants.EXTRA_CAR;
+import static com.example.app.utils.Constants.EXTRA_CARS;
+
 
 public class FragmentChooser extends Fragment {
 
@@ -36,25 +39,25 @@ public class FragmentChooser extends Fragment {
     private ObjectSelectListener objectSelectListener;
 
 
-
     public FragmentChooser() {
         // Required empty public constructor
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View v = inflater.inflate(R.layout.fragment_chooser, container, false);
         recyclerView=v.findViewById(R.id.rv_recycler);
-        generateModels();
+
+        generateModels ();
+        adapterInit();
 
         FloatingActionButton addBtn = v.findViewById(R.id.fab_add);
 
@@ -62,77 +65,10 @@ public class FragmentChooser extends Fragment {
             @Override
             public void onClick(View view) {
                 if (models != null && carRecyclerAdapter != null) {
-
                     objectSelectListener.buttonSelected();
-
-                  //  items.add(new TaskItem(true, "NEW TASK", TaskItem.Type.PLACE, "13:00", "15/05/2017"));
-
-
                 }
             }
         });
-
-//
-//        AppCompatButton btn1 = v.findViewById(R.id.btn_1);
-//        AppCompatButton btn2 = v.findViewById(R.id.btn_2);
-//        AppCompatButton btn3 = v.findViewById(R.id.btn_3);
-//        AppCompatButton btn4 = v.findViewById(R.id.btn_4);
-//        AppCompatButton btn5 = v.findViewById(R.id.btn_5);
-
-//
-//
-//
-//        btn1.setText(models.get(0).getName());
-//        btn2.setText(models.get(1).getName());
-//        btn3.setText(models.get(2).getName());
-//        btn4.setText(models.get(3).getName());
-//        btn5.setText(models.get(4).getName());
-//
-//        btn1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (objectSelectListener != null) {
-//                    objectSelectListener.btn1Selected();
-//                }
-//            }
-//        });
-//
-//        btn2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (objectSelectListener != null) {
-//                    objectSelectListener.btn2Selected();
-//                }
-//            }
-//        });
-//
-//        btn3.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (objectSelectListener != null) {
-//                    objectSelectListener.btn3Selected();
-//                }
-//            }
-//        });
-//
-//        btn4.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (objectSelectListener != null) {
-//                    objectSelectListener.btn4Selected();
-//                }
-//            }
-//        });
-//
-//        btn5.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (objectSelectListener != null) {
-//                    objectSelectListener.btn5Selected();
-//                }
-//            }
-//        });
-
         return v;
     }
 
@@ -152,7 +88,10 @@ public class FragmentChooser extends Fragment {
         models.add(Toyota);
         models.add(Lexus);
 
-        carRecyclerAdapter=new CarRecyclerAdapter (models, this);
+    }
+
+    private void adapterInit() {
+        carRecyclerAdapter=new CarRecyclerAdapter(models, this);
 
         carRecyclerAdapter.setListener(new OnCarRecyclerItemClickListener() {
             @Override
@@ -163,7 +102,6 @@ public class FragmentChooser extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(carRecyclerAdapter);
-
     }
 
     public ArrayList<Car> getModels () {

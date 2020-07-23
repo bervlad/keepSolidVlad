@@ -9,6 +9,8 @@ public class Constants {
     public final static String EXTRA_NAME = "com.example.app.EXTRA_NAME";
     public final static String EXTRA_RES = "com.example.app.EXTRA_RES";
     public final static String EXTRA_CAR = "com.example.app.EXTRA_CAR";
+    public final static String EXTRA_CARS = "com.example.app.EXTRA_CARS";
+
 
 
 

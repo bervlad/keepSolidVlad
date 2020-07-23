@@ -40,36 +40,6 @@ public class MainActivity extends BaseActivity {
             fragmentViewer = (FragmentViewer) getSupportFragmentManager().findFragmentById(R.id.fragment_two);
         }
 
-//        ObjectSelectListener objectSelectListener = new ObjectSelectListener() {
-//
-//            @Override
-//            public void btn1Selected() {
-//                displaySelected(0);
-//            }
-//
-//            @Override
-//            public void btn2Selected() {
-//                displaySelected(1);
-//            }
-//
-//            @Override
-//            public void btn3Selected() {
-//                displaySelected(2);
-//            }
-//
-//            @Override
-//            public void btn4Selected() {
-//                displaySelected(3);
-//            }
-//
-//            @Override
-//            public void btn5Selected() {
-//                displaySelected(4);
-//            }
-//
-//        };
-
-//
         ObjectSelectListener objectSelectListener = new ObjectSelectListener() {
             @Override
             public void selected(int num) {
@@ -82,8 +52,6 @@ public class MainActivity extends BaseActivity {
             }
         };
         fragmentChooser.setObjectSelectListener(objectSelectListener);
-
-        
     }
 
     public void displaySelected (int num) {
@@ -92,7 +60,6 @@ public class MainActivity extends BaseActivity {
         if (inLandscapeMode) {
             fragmentViewer.setText(models.get(num).toString());
         } else {
-
             Intent explicitIntent = new Intent(MainActivity.this, SecondActivity.class);
             explicitIntent.putExtra(Constants.EXTRA_CAR, models.get(num));
             startActivity(explicitIntent);
@@ -104,10 +71,7 @@ public class MainActivity extends BaseActivity {
         if (requestCode == Constants.NAME_REQUEST_CODE) {
             if (data != null) {
                 if (data.getExtras() != null) {
-                    showNameToast("Hello");
                     Car newCar = data.getParcelableExtra(Constants.EXTRA_CAR);
-                     //= getIntent().getParcelableExtra(Constants.EXTRA_CAR);
-                    // Car newCar = new Car ("Forddd", "ddasd", 123,12);
                     fragmentChooser.addModel(newCar);
                 }
             }
@@ -117,6 +81,4 @@ public class MainActivity extends BaseActivity {
     private void showNameToast(String name) {
         Toast.makeText(MainActivity.this, name, Toast.LENGTH_LONG).show();
     }
-
-
 }
