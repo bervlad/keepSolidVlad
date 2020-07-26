@@ -68,28 +68,55 @@ public class InputActivity extends AppCompatActivity {
 
     private void handleSendBtn() {
 
-        if (TextUtils.isEmpty(carName.getText()) ||
-                TextUtils.isEmpty(carColor.getText()) ||
-                TextUtils.isEmpty(maxSpeed.getText()) ||
-                TextUtils.isEmpty(capacity.getText()))
-        {
-            Toast.makeText(InputActivity.this, "Empty Text", Toast.LENGTH_LONG).show();
-        }
-        else {
+
             Intent intent = new Intent();
+            Boolean check = true;
+
+            String maxSpeedString = maxSpeed.getText().toString().trim().replaceAll(" +", " ");
+            String capacityString = capacity.getText().toString().trim().replaceAll(" +", " ");
+            String carNameString = carName.getText().toString().trim().replaceAll(" +", " ");
+            String carColorString = carColor.getText().toString().trim().replaceAll(" +", " ");
+
+            if (maxSpeedString.length() == 0) {
+                maxSpeed.setError(getString(R.string.no_value_provided));
+                check = false;
+            }
+            if (capacityString.length() == 0) {
+                capacity.setError(getString(R.string.no_value_provided));
+                check = false;
+            }
+            if (carNameString.length() == 0) {
+                carName.setError(getString(R.string.no_value_provided));
+                check = false;
+            }
+            if (carColorString.length() == 0) {
+                carColor.setError(getString(R.string.no_value_provided));
+                check = false;
+            }
 
             try {
-                Car newCar = new Car(carName.getText().toString(),
-                        carColor.getText().toString(),
-                        Integer.parseInt(maxSpeed.getText().toString()),
-                        Integer.parseInt(capacity.getText().toString() ));
+                Integer.parseInt(maxSpeedString);
+            } catch (Exception e) {
+                maxSpeed.setError(getString(R.string.input_number));
+                check = false;
+            }
 
+            try {
+                Integer.parseInt(capacityString);
+            } catch (Exception e) {
+                capacity.setError(getString(R.string.input_number));
+                check = false;
+            }
+
+            if (check) {
+                Car newCar = new Car(carNameString,
+                        carColorString,
+                        Integer.parseInt(maxSpeed.getText().toString()),
+                        Integer.parseInt(capacity.getText().toString()));
                 intent.putExtra(Constants.EXTRA_CAR, newCar);
                 setResult(RESULT_OK, intent);
                 finish();
-            } catch (IllegalArgumentException ex) {
-                Toast.makeText(InputActivity.this, R.string.illegal_argument, Toast.LENGTH_LONG).show();
             }
+
         }
     }
-}

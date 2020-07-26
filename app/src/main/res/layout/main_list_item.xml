@@ -22,27 +22,29 @@
 
         <TextView
             android:id="@+id/car_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:ellipsize="end"
             android:lines="1"
             android:maxLines="1"
             android:singleLine="true"
             android:textAppearance="@android:style/TextAppearance.Medium"
+            android:gravity="start"
              />
 
         <TextView
             android:id="@+id/car_color"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="start"
             android:ellipsize="end"
             android:lines="1"
             android:maxLines="1"
             android:singleLine="true"
             android:textAppearance="@android:style/TextAppearance.Medium"
-             />
+            />
 
     </LinearLayout>
 

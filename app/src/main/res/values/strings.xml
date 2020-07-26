@@ -17,4 +17,6 @@
     <string name="car_max_speed">Car max speed</string>
     <string name="car_capacity">Car capacity</string>
     <string name="illegal_argument">Illegal Argument</string>
+    <string name="no_value_provided">No value provided</string>
+    <string name="input_number">Please input number</string>
 </resources>
