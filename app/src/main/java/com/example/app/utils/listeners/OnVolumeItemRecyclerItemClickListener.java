@@ -2,6 +2,6 @@ package com.example.app.utils.listeners;
 
 import android.view.View;
 
-public interface OnCarRecyclerItemClickListener {
+public interface OnVolumeItemRecyclerItemClickListener {
     public void onItemClick(View v, int position);
 }

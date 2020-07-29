@@ -8,11 +8,12 @@ import android.os.Bundle;
 import com.example.app.base.BaseActivity;
 import com.example.app.collections.Car;
 import com.example.app.fragment.FragmentViewer;
+import com.example.app.model.ParcableModel;
 import com.example.app.utils.Constants;
 
 
 public class SecondActivity extends BaseActivity {
-    private Car car;
+    private ParcableModel pmodel;
 
     private FragmentViewer fragmentViewer;
 
@@ -23,10 +24,10 @@ public class SecondActivity extends BaseActivity {
         initToolBarWithNav(getString(R.string.toolbar_title_second_activity));
 
         if (getIntent().getExtras() != null) {
-            car = getIntent().getParcelableExtra(Constants.EXTRA_CAR);
+            pmodel = getIntent().getParcelableExtra(Constants.EXTRA_MODEL);
         }
 
-        String inputText = car.toString() ;
+        String inputText = pmodel.toString() ;
 
         fragmentViewer = (FragmentViewer) getSupportFragmentManager().findFragmentById(R.id.fragment_two);
 

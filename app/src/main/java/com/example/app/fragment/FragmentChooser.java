@@ -1,31 +1,37 @@
 package com.example.app.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.example.app.InputActivity;
-import com.example.app.MainActivity;
 import com.example.app.R;
+import com.example.app.api.ApiCallback;
+import com.example.app.api.RestClient;
 import com.example.app.collections.Car;
 
 import java.util.ArrayList;
 
-import com.example.app.utils.adapter.CarRecyclerAdapter;
+import com.example.app.model.VolumeErrorItem;
+import com.example.app.model.VolumeModelItem;
+import com.example.app.model.VolumeResponse;
+import com.example.app.utils.KeyboardUtils;
+import com.example.app.utils.adapter.VolumeRecyclerAdapter;
 import com.example.app.utils.listeners.ObjectSelectListener;
-import com.example.app.utils.listeners.OnCarRecyclerItemClickListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.app.utils.listeners.OnVolumeItemRecyclerItemClickListener;
 
-import static com.example.app.utils.Constants.EXTRA_CAR;
-import static com.example.app.utils.Constants.EXTRA_CARS;
+import org.jetbrains.annotations.NotNull;
+
+import retrofit2.Response;
 
 
 public class FragmentChooser extends Fragment {
@@ -33,10 +39,14 @@ public class FragmentChooser extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    RecyclerView recyclerView;
-    private ArrayList <Car> models;
-    CarRecyclerAdapter carRecyclerAdapter;
+    private RecyclerView recyclerView;
+    private View loaderBlock;
+    private AppCompatEditText booknameInput;
+    private AppCompatButton goButton;
+    private ArrayList <VolumeModelItem> items;
+    VolumeRecyclerAdapter volumeRecyclerAdapter;
     private ObjectSelectListener objectSelectListener;
+
 
 
     public FragmentChooser() {
@@ -54,46 +64,96 @@ public class FragmentChooser extends Fragment {
         // Inflate the layout for this fragment
 
         View v = inflater.inflate(R.layout.fragment_chooser, container, false);
-        recyclerView=v.findViewById(R.id.rv_recycler);
 
-        generateModels ();
+        loaderBlock = v.findViewById(R.id.loader_block);
+        recyclerView=v.findViewById(R.id.rv_recycler);
+        booknameInput=v.findViewById(R.id.et_bookname_input);
+        goButton=v.findViewById(R.id.btn_go);
+
+        items=new ArrayList<> ();
+
         adapterInit();
 
-        FloatingActionButton addBtn = v.findViewById(R.id.fab_add);
-
-        addBtn.setOnClickListener(new View.OnClickListener() {
+        goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (models != null && carRecyclerAdapter != null) {
-                    objectSelectListener.buttonSelected();
-                }
+                handleSearchAction();
             }
         });
+
+//        addBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (models != null && volumeRecyclerAdapter != null) {
+//                    objectSelectListener.buttonSelected();
+//                }
+//            }
+//        });
         return v;
     }
 
-    public void generateModels () {
+    private void handleSearchAction() {
+        if (TextUtils.isEmpty(booknameInput.getText().toString())) {
+           booknameInput.requestFocus();
+        } else {
+            KeyboardUtils.hide(booknameInput);
+            loadVolumes(booknameInput.getText().toString());
+        }
+    }
 
-        models = new ArrayList<>();
+    private void loadVolumes(String bookName) {
+        showProgressBlock();
+        RestClient.getInstance().getService().getVolumes(bookName).enqueue(new ApiCallback<VolumeResponse>() {
 
-        Car Opel = new Car ("Opel", "Red", 200, 100);
-        Car Ford = new Car ("Ford", "Yellow", 250, 120);
-        Car Smart = new Car ("Smart", "Blue", 250, 120);
-        Car Toyota = new Car ("Toyota", "Blue", 250, 120);
-        Car Lexus = new Car ("Lexus", "Gold", 200, 100);
+            @Override
+            public void success(@NotNull Response<VolumeResponse> response) {
 
-        models.add(Opel);
-        models.add(Ford);
-        models.add(Smart);
-        models.add(Toyota);
-        models.add(Lexus);
+                if (!response.isSuccessful()) {
+                    items.clear();
+                    items.addAll(response.body().getItems());
+                    volumeRecyclerAdapter.notifyDataSetChanged();
+                    hideProgressBlock();
+                }
 
+                items.clear();
+                items.addAll(response.body().getItems());
+                volumeRecyclerAdapter.notifyDataSetChanged();
+                hideProgressBlock();
+            }
+
+
+            @Override
+            public void failure(VolumeErrorItem gitRepoError) {
+                if (TextUtils.isEmpty(gitRepoError.getDocumentation_url())) {
+                    makeErrorToast(gitRepoError.getMessage());
+                } else {
+                    makeErrorToast(gitRepoError.getMessage() + ", Details: " + gitRepoError.getDocumentation_url());
+                }
+                hideProgressBlock();
+            }
+        });
+    }
+
+    private void showProgressBlock() {
+        if (loaderBlock != null) {
+            loaderBlock.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void hideProgressBlock() {
+        if (loaderBlock != null) {
+            loaderBlock.setVisibility(View.GONE);
+        }
+    }
+
+    private void makeErrorToast(String errorMessage) {
+        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
     }
 
     private void adapterInit() {
-        carRecyclerAdapter=new CarRecyclerAdapter(models, this);
+        volumeRecyclerAdapter =new VolumeRecyclerAdapter(items, this);
 
-        carRecyclerAdapter.setListener(new OnCarRecyclerItemClickListener() {
+        volumeRecyclerAdapter.setListener(new OnVolumeItemRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 objectSelectListener.selected(position);
@@ -101,24 +161,22 @@ public class FragmentChooser extends Fragment {
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(carRecyclerAdapter);
+        recyclerView.setAdapter(volumeRecyclerAdapter);
     }
 
-    public ArrayList<Car> getModels () {
-        return models;
+    public ArrayList<VolumeModelItem> getModels () {
+        return items;
     }
 
-    public void addModel (Car newCar) {
-        models.add (newCar);
-        carRecyclerAdapter.notifyDataSetChanged();
-        recyclerView.smoothScrollToPosition(recyclerView.getBottom());
-    }
+//    public void addModel (Car newCar) {
+//        models.add (newCar);
+//        volumeRecyclerAdapter.notifyDataSetChanged();
+//        recyclerView.smoothScrollToPosition(recyclerView.getBottom());
+//    }
 
 
     public void setObjectSelectListener(ObjectSelectListener listener) {
         this.objectSelectListener = listener;
     }
-
-
 
 }

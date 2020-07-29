@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.base.BaseActivity;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 
 import com.example.app.fragment.FragmentChooser;
 import com.example.app.fragment.FragmentViewer;
+import com.example.app.model.ParcableModel;
+import com.example.app.model.VolumeModelItem;
 import com.example.app.utils.Constants;
 import com.example.app.utils.listeners.ObjectSelectListener;
 
@@ -22,6 +25,8 @@ public class MainActivity extends BaseActivity {
 
     private FragmentChooser fragmentChooser;
     private FragmentViewer fragmentViewer;
+
+
     RecyclerView recyclerView;
 
     boolean inLandscapeMode;
@@ -55,28 +60,35 @@ public class MainActivity extends BaseActivity {
     }
 
     public void displaySelected (int num) {
-        ArrayList<Car> models = fragmentChooser.getModels();
+        ArrayList<VolumeModelItem> models = fragmentChooser.getModels();
 
         if (inLandscapeMode) {
             fragmentViewer.setText(models.get(num).toString());
         } else {
+            ParcableModel pmodel = new ParcableModel(
+                    models.get(num).getTitle(),
+                    models.get(num).getAuthors(),
+                    models.get(num).getPublisher(),
+                    models.get(num).getDescription(),
+                    models.get(num).getSelflink()
+            );
             Intent explicitIntent = new Intent(MainActivity.this, SecondActivity.class);
-            explicitIntent.putExtra(Constants.EXTRA_CAR, models.get(num));
+            explicitIntent.putExtra(Constants.EXTRA_MODEL, pmodel);
             startActivity(explicitIntent);
         }
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.NAME_REQUEST_CODE) {
-            if (data != null) {
-                if (data.getExtras() != null) {
-                    Car newCar = data.getParcelableExtra(Constants.EXTRA_CAR);
-                    fragmentChooser.addModel(newCar);
-                }
-            }
-        }
-    }
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == Constants.NAME_REQUEST_CODE) {
+//            if (data != null) {
+//                if (data.getExtras() != null) {
+//                    Car newCar = data.getParcelableExtra(Constants.EXTRA_CAR);
+//                    fragmentChooser.addModel(newCar);
+//                }
+//            }
+//        }
+//    }
 
     private void showNameToast(String name) {
         Toast.makeText(MainActivity.this, name, Toast.LENGTH_LONG).show();

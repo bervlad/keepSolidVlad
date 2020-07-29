@@ -11,7 +11,5 @@ public class Constants {
     public final static String EXTRA_CAR = "com.example.app.EXTRA_CAR";
     public final static String EXTRA_CARS = "com.example.app.EXTRA_CARS";
 
-
-
-
+    public static final String EXTRA_MODEL = "com.example.app.EXTRA_MODEL" ;
 }
