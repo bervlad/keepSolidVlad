@@ -19,4 +19,5 @@
     <string name="illegal_argument">Illegal Argument</string>
     <string name="no_value_provided">No value provided</string>
     <string name="input_number">Please input number</string>
+    <string name="open_book">Open book</string>
 </resources>

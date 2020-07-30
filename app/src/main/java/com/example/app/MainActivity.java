@@ -2,6 +2,7 @@ package com.example.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -38,10 +39,12 @@ public class MainActivity extends BaseActivity {
 
         initToolBar (getString(R.string.toolbar_title_main_activity));
 
+
         inLandscapeMode = findViewById(R.id.fragment_two) != null;
 
         fragmentChooser = (FragmentChooser) getSupportFragmentManager().findFragmentById(R.id.fragment_one);
         if (inLandscapeMode) {
+            findViewById(R.id.btn_link).setVisibility(View.GONE);
             fragmentViewer = (FragmentViewer) getSupportFragmentManager().findFragmentById(R.id.fragment_two);
         }
 
@@ -64,6 +67,10 @@ public class MainActivity extends BaseActivity {
 
         if (inLandscapeMode) {
             fragmentViewer.setText(models.get(num).toString());
+            fragmentViewer.assignLink(models.get(num).getSelflink());
+            findViewById(R.id.btn_link).setVisibility(View.VISIBLE);
+            findViewById(R.id.intent_data_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+
         } else {
             ParcableModel pmodel = new ParcableModel(
                     models.get(num).getTitle(),

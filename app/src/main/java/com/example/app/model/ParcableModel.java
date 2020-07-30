@@ -48,11 +48,11 @@ public class ParcableModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(selflink.toString());
         dest.writeString(title);
         dest.writeString(authors);
         dest.writeString(publisher);
         dest.writeString(description);
+        if (selflink!=null) dest.writeString(selflink.toString());
     }
 
     @Override
@@ -72,7 +72,7 @@ public class ParcableModel implements Parcelable {
         }
     };
     public String toString() {
-        return "Title: " + this.getTitle() +
+        return "Title: " + this.getTitle() + "\n" +
                 "Authors: " + this.getAuthors() + "\n" +
                 "Publisher: " + this.getPublisher() + "\n" +
                 "Description: " + this.getDescription() ;

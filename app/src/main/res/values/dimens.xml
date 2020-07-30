@@ -5,4 +5,5 @@
     <dimen name="toolbar_height"> 56dp </dimen>
     <dimen name="search_margin">16dp</dimen>
     <dimen name="default_small_margin">8dp</dimen>
+    <dimen name="normal_text">15sp</dimen>
 </resources>

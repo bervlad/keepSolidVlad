@@ -103,7 +103,7 @@ public class FragmentChooser extends Fragment {
 
     private void loadVolumes(String bookName) {
         showProgressBlock();
-        RestClient.getInstance().getService().getVolumes(bookName).enqueue(new ApiCallback<VolumeResponse>() {
+        RestClient.getInstance().getService().getVolumes("intitle:"+ bookName).enqueue(new ApiCallback<VolumeResponse>() {
 
             @Override
             public void success(@NotNull Response<VolumeResponse> response) {
@@ -116,8 +116,10 @@ public class FragmentChooser extends Fragment {
                 }
 
                 items.clear();
-                items.addAll(response.body().getItems());
-                volumeRecyclerAdapter.notifyDataSetChanged();
+                if (response.body().getItems()!=null) {
+                    items.addAll(response.body().getItems());
+                    volumeRecyclerAdapter.notifyDataSetChanged();
+                } else makeErrorToast("No books found");
                 hideProgressBlock();
             }
 

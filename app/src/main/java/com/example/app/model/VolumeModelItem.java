@@ -1,16 +1,11 @@
 package com.example.app.model;
 
 import android.net.Uri;
-import android.os.Parcel;
-import android.os.Parcelable;
 
-import com.example.app.collections.Car;
-
-import java.util.ArrayList;
+import com.google.gson.annotations.SerializedName;
 
 public class VolumeModelItem  {
-private int id;
-private Uri selflink;
+private String id;
 VolumeInfo volumeInfo;
 
     public void setVolumeInfo(VolumeInfo volumeInfo) {
@@ -21,17 +16,16 @@ VolumeInfo volumeInfo;
         return volumeInfo;
     }
 
-    public VolumeModelItem(int id, Uri selflink) {
+    public VolumeModelItem(String id) {
         this.id = id;
-        this.selflink = selflink;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
     public Uri getSelflink() {
-        return selflink;
+        return  checkNull(volumeInfo.getPreviewLink());
     }
 
     public String getTitle() {
@@ -43,21 +37,21 @@ VolumeInfo volumeInfo;
     }
 
     public String getDescription() {
-        return volumeInfo.getDescription();
+
+        String descr="";
+        if (volumeInfo.getDescription().length()>100) descr=volumeInfo.getDescription().substring(0,100)+"...";
+        else descr = volumeInfo.getDescription();
+
+        return descr;
     }
 
     public String getAuthors() {
         return volumeInfo.getAuthors();
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
-
-    public void setSelflink(Uri selflink) {
-        this.selflink = selflink;
-    }
-
 
 
     @Override
@@ -72,16 +66,17 @@ VolumeInfo volumeInfo;
     }
 
     @Override
-    public int hashCode() {
-        return id;
-    }
-
-    @Override
     public String toString() {
-        return "Title: " + this.getTitle() +
+        String descr=this.getDescription();
+
+        return "Title: " + this.getTitle() + "\n" +
                 "Authors: " + this.getAuthors() + "\n" +
                 "Publisher: " + this.getPublisher() + "\n" +
-                "Description: " + this.getDescription() ;
+                "Description: " + descr  + "\n";
+    }
+
+    private Uri checkNull (Uri link) {
+        if (link!=null) return link; else return Uri.parse("");
     }
 
 //    protected VolumeModelItem(Parcel in) {
