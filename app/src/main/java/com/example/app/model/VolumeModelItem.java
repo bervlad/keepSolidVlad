@@ -79,36 +79,6 @@ VolumeInfo volumeInfo;
         if (link!=null) return link; else return Uri.parse("");
     }
 
-//    protected VolumeModelItem(Parcel in) {
-//        id = in.readInt();
-//        selflink = Uri.parse(in.readString());
-//        volumeInfo = in.readParcelable(Volume);
-//    }
-//
-//    @Override
-//    public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeString(selflink.toString());
-//        dest.writeInt(id);
-//        dest.writeString(color);
-//        dest.writeString(name);
-//    }
-//
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    public static final Creator<Car> CREATOR = new Creator<Car>() {
-//        @Override
-//        public Car createFromParcel(Parcel in) {
-//            return new Car(in);
-//        }
-//
-//        @Override
-//        public Car[] newArray(int size) {
-//            return new Car[size];
-//        }
-//    };
 
 }
 

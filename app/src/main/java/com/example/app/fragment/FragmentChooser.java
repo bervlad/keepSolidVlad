@@ -77,24 +77,18 @@ public class FragmentChooser extends Fragment {
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                objectSelectListener.buttonSelected();
                 handleSearchAction();
             }
         });
 
-//        addBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (models != null && volumeRecyclerAdapter != null) {
-//                    objectSelectListener.buttonSelected();
-//                }
-//            }
-//        });
         return v;
     }
 
     private void handleSearchAction() {
-        if (TextUtils.isEmpty(booknameInput.getText().toString())) {
+        if (TextUtils.isEmpty(booknameInput.getText().toString().trim())) {
            booknameInput.requestFocus();
+           makeErrorToast("Please input text");
         } else {
             KeyboardUtils.hide(booknameInput);
             loadVolumes(booknameInput.getText().toString());
@@ -125,11 +119,11 @@ public class FragmentChooser extends Fragment {
 
 
             @Override
-            public void failure(VolumeErrorItem gitRepoError) {
-                if (TextUtils.isEmpty(gitRepoError.getDocumentation_url())) {
-                    makeErrorToast(gitRepoError.getMessage());
+            public void failure(VolumeErrorItem volumeError) {
+                if (TextUtils.isEmpty(volumeError.getDocumentation_url())) {
+                    makeErrorToast(volumeError.getMessage());
                 } else {
-                    makeErrorToast(gitRepoError.getMessage() + ", Details: " + gitRepoError.getDocumentation_url());
+                    makeErrorToast(volumeError.getMessage() + ", Details: " + volumeError.getDocumentation_url());
                 }
                 hideProgressBlock();
             }
@@ -170,11 +164,6 @@ public class FragmentChooser extends Fragment {
         return items;
     }
 
-//    public void addModel (Car newCar) {
-//        models.add (newCar);
-//        volumeRecyclerAdapter.notifyDataSetChanged();
-//        recyclerView.smoothScrollToPosition(recyclerView.getBottom());
-//    }
 
 
     public void setObjectSelectListener(ObjectSelectListener listener) {

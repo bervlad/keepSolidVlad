@@ -39,7 +39,6 @@ public class MainActivity extends BaseActivity {
 
         initToolBar (getString(R.string.toolbar_title_main_activity));
 
-
         inLandscapeMode = findViewById(R.id.fragment_two) != null;
 
         fragmentChooser = (FragmentChooser) getSupportFragmentManager().findFragmentById(R.id.fragment_one);
@@ -55,8 +54,9 @@ public class MainActivity extends BaseActivity {
             }
 
             public void buttonSelected () {
-                Intent explicitIntent = new Intent(MainActivity.this, InputActivity.class);
-                startActivityForResult(explicitIntent, Constants.NAME_REQUEST_CODE);
+                if (inLandscapeMode) {
+                    fragmentViewer = (FragmentViewer) getSupportFragmentManager().findFragmentById(R.id.fragment_two);
+                fragmentViewer.clearScreen();}
             }
         };
         fragmentChooser.setObjectSelectListener(objectSelectListener);
@@ -85,17 +85,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == Constants.NAME_REQUEST_CODE) {
-//            if (data != null) {
-//                if (data.getExtras() != null) {
-//                    Car newCar = data.getParcelableExtra(Constants.EXTRA_CAR);
-//                    fragmentChooser.addModel(newCar);
-//                }
-//            }
-//        }
-//    }
 
     private void showNameToast(String name) {
         Toast.makeText(MainActivity.this, name, Toast.LENGTH_LONG).show();

@@ -78,5 +78,10 @@ public class FragmentViewer extends Fragment {
         textView.setText(textInput);
     }
 
+    public void clearScreen () {
+        textView.setText("");
+        btnLink.setVisibility(View.GONE);
+    }
+
 
 }
