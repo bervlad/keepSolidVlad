@@ -2,11 +2,22 @@ package com.example.app.model;
 
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "volumeItemsTable")
 public class VolumeModelItem  {
-private String id;
-VolumeInfo volumeInfo;
+
+    @PrimaryKey
+    @NonNull
+    private String id;
+
+    @Embedded
+    VolumeInfo volumeInfo;
 
     public void setVolumeInfo(VolumeInfo volumeInfo) {
         this.volumeInfo = volumeInfo;
@@ -46,7 +57,7 @@ VolumeInfo volumeInfo;
     }
 
     public String getAuthors() {
-        return volumeInfo.getAuthors();
+        return volumeInfo.getAuthorsString();
     }
 
     public void setId(String id) {

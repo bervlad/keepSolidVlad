@@ -1,7 +1,10 @@
 package com.example.app.model;
 
+import androidx.room.ColumnInfo;
+
 public class ImageLinks {
 
+    @ColumnInfo(name = "bookImageUrl")
     private String smallThumbnail;
 
     public ImageLinks(String smallThumbnail) {

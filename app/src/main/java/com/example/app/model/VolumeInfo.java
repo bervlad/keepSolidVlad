@@ -4,12 +4,34 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
+import androidx.room.TypeConverters;
+
+import com.example.app.database.TypesConverter;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
+@TypeConverters({TypesConverter.class})
 public class VolumeInfo  {
-    private String title, publisher, description;
+
+    @ColumnInfo(name = "bookTitle")
+    private String title;
+
+    @ColumnInfo(name = "bookPublisher")
+    private String publisher;
+
+    @ColumnInfo(name = "bookDescription")
+    private String description;
+
+    @ColumnInfo(name = "bookAuthors")
     private ArrayList<String> authors;
+
+    @Embedded
     ImageLinks imageLinks;
+
+    @ColumnInfo(name = "bookUrl")
     Uri previewLink;
 
     public void setImageLinks(ImageLinks imageLinks) {
@@ -40,11 +62,15 @@ public class VolumeInfo  {
         return checkNull(publisher);
     }
 
+    public ArrayList<String> getAuthors() {
+        return authors;
+    }
+
     public String getDescription() {
         return checkNull(description);
     }
 
-    public String getAuthors() {
+    public String getAuthorsString() {
 
         StringBuilder output = new StringBuilder();
         if (authors!=null && authors.size()!=0) {
@@ -54,7 +80,7 @@ public class VolumeInfo  {
                     output.append(i).append(", ");} else output.append(i);
                 }
             }
-        } else output.append("unknown");
+        } else return null;
 
         return output.toString();
     }

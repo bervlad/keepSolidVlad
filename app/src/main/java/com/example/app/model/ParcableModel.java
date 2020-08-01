@@ -72,8 +72,10 @@ public class ParcableModel implements Parcelable {
         }
     };
     public String toString() {
+        String authors = "";
+        if (this.getAuthors()==null) authors = "unknown"; else authors =this.getAuthors();
         return "Title: " + this.getTitle() + "\n" +
-                "Authors: " + this.getAuthors() + "\n" +
+                "Authors: " + authors + "\n" +
                 "Publisher: " + this.getPublisher() + "\n" +
                 "Description: " + this.getDescription() ;
     }

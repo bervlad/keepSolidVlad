@@ -9,11 +9,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.app.app.App;
 import com.example.app.base.BaseActivity;
 import com.example.app.collections.Car;
 
 import java.util.ArrayList;
 
+import com.example.app.database.AppDatabase;
 import com.example.app.fragment.FragmentChooser;
 import com.example.app.fragment.FragmentViewer;
 import com.example.app.model.ParcableModel;
@@ -37,11 +39,13 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        initToolBar (getString(R.string.toolbar_title_main_activity));
+        initToolBarWithHistory (getString(R.string.toolbar_title_main_activity));
 
         inLandscapeMode = findViewById(R.id.fragment_two) != null;
 
         fragmentChooser = (FragmentChooser) getSupportFragmentManager().findFragmentById(R.id.fragment_one);
+        //fragmentChooser.setDatabase(getDatabase());
+
         if (inLandscapeMode) {
             findViewById(R.id.btn_link).setVisibility(View.GONE);
             fragmentViewer = (FragmentViewer) getSupportFragmentManager().findFragmentById(R.id.fragment_two);
@@ -56,11 +60,12 @@ public class MainActivity extends BaseActivity {
             public void buttonSelected () {
                 if (inLandscapeMode) {
                     fragmentViewer = (FragmentViewer) getSupportFragmentManager().findFragmentById(R.id.fragment_two);
-                fragmentViewer.clearScreen();}
+                    fragmentViewer.clearScreen();}
             }
         };
         fragmentChooser.setObjectSelectListener(objectSelectListener);
     }
+
 
     public void displaySelected (int num) {
         ArrayList<VolumeModelItem> models = fragmentChooser.getModels();
@@ -85,6 +90,10 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+
+    public AppDatabase getDatabase() {
+        return ((App)getApplication()).getDatabase();
+    }
 
     private void showNameToast(String name) {
         Toast.makeText(MainActivity.this, name, Toast.LENGTH_LONG).show();

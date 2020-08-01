@@ -14,13 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.app.MainActivity;
 import com.example.app.R;
 import com.example.app.api.ApiCallback;
 import com.example.app.api.RestClient;
 import com.example.app.collections.Car;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import com.example.app.database.AppDatabase;
 import com.example.app.model.VolumeErrorItem;
 import com.example.app.model.VolumeModelItem;
 import com.example.app.model.VolumeResponse;
@@ -46,7 +49,7 @@ public class FragmentChooser extends Fragment {
     private ArrayList <VolumeModelItem> items;
     VolumeRecyclerAdapter volumeRecyclerAdapter;
     private ObjectSelectListener objectSelectListener;
-
+    AppDatabase database;
 
 
     public FragmentChooser() {
@@ -74,6 +77,15 @@ public class FragmentChooser extends Fragment {
 
         adapterInit();
 
+        database =((MainActivity)getActivity()).getDatabase();
+        if (database != null) {
+            database.repoItemDao().getAll().observe(this, (List<VolumeModelItem> volumeModelItems) -> {
+                items.clear();
+                items.addAll(volumeModelItems);
+                volumeRecyclerAdapter.notifyDataSetChanged();
+            });
+        }
+
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,34 +112,40 @@ public class FragmentChooser extends Fragment {
         RestClient.getInstance().getService().getVolumes("intitle:"+ bookName).enqueue(new ApiCallback<VolumeResponse>() {
 
             @Override
-            public void success(@NotNull Response<VolumeResponse> response) {
+            public void success(Response<VolumeResponse> response) {
 
-                if (!response.isSuccessful()) {
-                    items.clear();
-                    items.addAll(response.body().getItems());
-                    volumeRecyclerAdapter.notifyDataSetChanged();
-                    hideProgressBlock();
-                }
+//                if (!response.isSuccessful()) {
+//                    items.clear();
+//                    items.addAll(response.body().getItems());
+//                    volumeRecyclerAdapter.notifyDataSetChanged();
+//
+//                    hideProgressBlock();
+//                }
 
-                items.clear();
+               // items.clear();
                 if (response.body().getItems()!=null) {
-                    items.addAll(response.body().getItems());
-                    volumeRecyclerAdapter.notifyDataSetChanged();
+//                    items.addAll(response.body().getItems());
+//                    volumeRecyclerAdapter.notifyDataSetChanged();
+                   updateList(response.body().getItems());
                 } else makeErrorToast("No books found");
                 hideProgressBlock();
             }
 
-
             @Override
             public void failure(VolumeErrorItem volumeError) {
-                if (TextUtils.isEmpty(volumeError.getDocumentation_url())) {
-                    makeErrorToast(volumeError.getMessage());
-                } else {
-                    makeErrorToast(volumeError.getMessage() + ", Details: " + volumeError.getDocumentation_url());
-                }
+                handleError(volumeError);
                 hideProgressBlock();
             }
+
         });
+    }
+
+    private void handleError(VolumeErrorItem volumeError) {
+        if (TextUtils.isEmpty(volumeError.getDocumentation_url())) {
+            makeErrorToast(volumeError.getMessage());
+        } else {
+            makeErrorToast(volumeError.getMessage() + ", Details: " + volumeError.getDocumentation_url());
+        }
     }
 
     private void showProgressBlock() {
@@ -164,10 +182,17 @@ public class FragmentChooser extends Fragment {
         return items;
     }
 
-
+    public void setDatabase(AppDatabase database) {
+        this.database = database;
+    }
 
     public void setObjectSelectListener(ObjectSelectListener listener) {
         this.objectSelectListener = listener;
+    }
+
+    private void updateList(List<VolumeModelItem> itemsToUpdate) {
+        database.repoItemDao().deleteAll();
+        database.repoItemDao().insert(itemsToUpdate);
     }
 
 }
