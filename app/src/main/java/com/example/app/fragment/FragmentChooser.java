@@ -18,7 +18,6 @@ import com.example.app.MainActivity;
 import com.example.app.R;
 import com.example.app.api.ApiCallback;
 import com.example.app.api.RestClient;
-import com.example.app.collections.Car;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +26,11 @@ import com.example.app.database.AppDatabase;
 import com.example.app.model.VolumeErrorItem;
 import com.example.app.model.VolumeModelItem;
 import com.example.app.model.VolumeResponse;
-import com.example.app.utils.KeyboardUtils;
+import com.example.app.utils.listeners.ApplicationManager;
+import com.example.app.utils.listeners.KeyboardUtils;
 import com.example.app.utils.adapter.VolumeRecyclerAdapter;
 import com.example.app.utils.listeners.ObjectSelectListener;
 import com.example.app.utils.listeners.OnVolumeItemRecyclerItemClickListener;
-
-import org.jetbrains.annotations.NotNull;
 
 import retrofit2.Response;
 
@@ -102,6 +100,7 @@ public class FragmentChooser extends Fragment {
            booknameInput.requestFocus();
            makeErrorToast("Please input text");
         } else {
+            ApplicationManager.updateCachedItems(getContext(), booknameInput.getText().toString());
             KeyboardUtils.hide(booknameInput);
             loadVolumes(booknameInput.getText().toString());
         }
@@ -188,6 +187,11 @@ public class FragmentChooser extends Fragment {
 
     public void setObjectSelectListener(ObjectSelectListener listener) {
         this.objectSelectListener = listener;
+    }
+
+    public void performSearch (String title) {
+        booknameInput.setText(title);
+        loadVolumes(title);
     }
 
     private void updateList(List<VolumeModelItem> itemsToUpdate) {

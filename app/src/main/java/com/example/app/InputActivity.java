@@ -4,19 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.app.collections.Car;
-import com.example.app.utils.Constants;
-
-import java.io.IOException;
+import com.example.app.utils.listeners.Constants;
 
 public class InputActivity extends AppCompatActivity {
     private AppCompatEditText carName;

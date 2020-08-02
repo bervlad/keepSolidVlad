@@ -1,18 +1,13 @@
 package com.example.app;
 
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
-
-import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.app.base.BaseActivity;
-import com.example.app.collections.Car;
 import com.example.app.fragment.FragmentViewer;
 import com.example.app.model.ParcableModel;
-import com.example.app.utils.Constants;
+import com.example.app.utils.listeners.Constants;
 
 
 public class SecondActivity extends BaseActivity {

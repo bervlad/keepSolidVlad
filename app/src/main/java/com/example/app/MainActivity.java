@@ -6,12 +6,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatEditText;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.app.App;
 import com.example.app.base.BaseActivity;
-import com.example.app.collections.Car;
 
 import java.util.ArrayList;
 
@@ -20,11 +18,11 @@ import com.example.app.fragment.FragmentChooser;
 import com.example.app.fragment.FragmentViewer;
 import com.example.app.model.ParcableModel;
 import com.example.app.model.VolumeModelItem;
-import com.example.app.utils.Constants;
+import com.example.app.utils.listeners.Constants;
 import com.example.app.utils.listeners.ObjectSelectListener;
+import com.example.app.utils.listeners.OnHistoryForResultListener;
 
 public class MainActivity extends BaseActivity {
-
 
     private FragmentChooser fragmentChooser;
     private FragmentViewer fragmentViewer;
@@ -39,7 +37,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        initToolBarWithHistory (getString(R.string.toolbar_title_main_activity));
+        initToolBarWithNav (getString(R.string.toolbar_title_main_activity));
 
         inLandscapeMode = findViewById(R.id.fragment_two) != null;
 
@@ -51,6 +49,18 @@ public class MainActivity extends BaseActivity {
             fragmentViewer = (FragmentViewer) getSupportFragmentManager().findFragmentById(R.id.fragment_two);
         }
 
+        OnHistoryForResultListener onHistoryForResultListener = new OnHistoryForResultListener() {
+
+            @Override
+            public void historyIconSelected() {
+                Intent explicitIntent = new Intent(MainActivity.this, ThirdActivity.class);
+                startActivityForResult(explicitIntent, Constants.TITLE_CODE);
+            }
+        };
+
+        super.setListener(onHistoryForResultListener);
+
+
         ObjectSelectListener objectSelectListener = new ObjectSelectListener() {
             @Override
             public void selected(int num) {
@@ -59,6 +69,7 @@ public class MainActivity extends BaseActivity {
 
             public void buttonSelected () {
                 if (inLandscapeMode) {
+
                     fragmentViewer = (FragmentViewer) getSupportFragmentManager().findFragmentById(R.id.fragment_two);
                     fragmentViewer.clearScreen();}
             }
@@ -97,5 +108,18 @@ public class MainActivity extends BaseActivity {
 
     private void showNameToast(String name) {
         Toast.makeText(MainActivity.this, name, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.TITLE_CODE) {
+            if (data != null) {
+                if (data.getExtras() != null) {
+                    String title = data.getExtras().getString(Constants.EXTRA_TITLE);
+                    fragmentChooser.performSearch(title);
+                }
+            }
+        }
     }
 }
