@@ -37,13 +37,14 @@ public class ThirdActivity extends BaseActivity {
             @Override
             public void onItemClick(View v, int position, String title) {
 
-//                Intent explicitIntent = new Intent(ThirdActivity.this, MainActivity.class);
-//                startActivity(explicitIntent);
+                Intent explicitIntent = new Intent(ThirdActivity.this, MainActivity.class);
+                explicitIntent.putExtra(Constants.EXTRA_TITLE, title);
+                startActivity(explicitIntent);
 
-                Intent intent = new Intent();
-                intent.putExtra(Constants.EXTRA_TITLE, title);
-                setResult(RESULT_OK, intent);
-                finish();
+//                Intent intent = new Intent();
+//                intent.putExtra(Constants.EXTRA_TITLE, title);
+//                setResult(RESULT_OK, intent);
+//                finish();
             }
         });
         recycler=findViewById(R.id.rv_recycler_history);

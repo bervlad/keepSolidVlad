@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.Toolbar xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/ToolBar"
+    android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:background="?attr/background"
     android:visibility="visible"
     android:layout_height="@dimen/toolbar_height"
-    android:layout_alignParentTop="true" />
+    android:layout_alignParentTop="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    app:titleTextColor="?attr/colorOnBackground"
+    tools:ignore="ExtraText" />

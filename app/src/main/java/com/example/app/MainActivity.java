@@ -39,6 +39,8 @@ public class MainActivity extends BaseActivity {
 
         initToolBarWithNav (getString(R.string.toolbar_title_main_activity));
 
+
+
         inLandscapeMode = findViewById(R.id.fragment_two) != null;
 
         fragmentChooser = (FragmentChooser) getSupportFragmentManager().findFragmentById(R.id.fragment_one);
@@ -54,7 +56,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void historyIconSelected() {
                 Intent explicitIntent = new Intent(MainActivity.this, ThirdActivity.class);
-                startActivityForResult(explicitIntent, Constants.TITLE_CODE);
+                startActivity(explicitIntent);
             }
         };
 
@@ -75,6 +77,12 @@ public class MainActivity extends BaseActivity {
             }
         };
         fragmentChooser.setObjectSelectListener(objectSelectListener);
+
+        if (getIntent().getExtras() != null) {
+            String title = getIntent().getStringExtra(Constants.EXTRA_TITLE);
+            fragmentChooser.performSearch(title);
+        }
+
     }
 
 
@@ -110,16 +118,18 @@ public class MainActivity extends BaseActivity {
         Toast.makeText(MainActivity.this, name, Toast.LENGTH_LONG).show();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.TITLE_CODE) {
-            if (data != null) {
-                if (data.getExtras() != null) {
-                    String title = data.getExtras().getString(Constants.EXTRA_TITLE);
-                    fragmentChooser.performSearch(title);
-                }
-            }
-        }
-    }
+
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == Constants.TITLE_CODE) {
+//            if (data != null) {
+//                if (data.getExtras() != null) {
+//                    String title = data.getExtras().getString(Constants.EXTRA_TITLE);
+//                    fragmentChooser.performSearch(title);
+//                }
+//            }
+//        }
+//    }
 }

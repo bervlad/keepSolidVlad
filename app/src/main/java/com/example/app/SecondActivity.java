@@ -1,6 +1,7 @@
 package com.example.app;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 
@@ -8,6 +9,7 @@ import com.example.app.base.BaseActivity;
 import com.example.app.fragment.FragmentViewer;
 import com.example.app.model.ParcableModel;
 import com.example.app.utils.listeners.Constants;
+import com.example.app.utils.listeners.OnHistoryForResultListener;
 
 
 public class SecondActivity extends BaseActivity {
@@ -21,6 +23,15 @@ public class SecondActivity extends BaseActivity {
         setContentView(R.layout.activity_second);
         initToolBarWithNav(getString(R.string.toolbar_title_second_activity));
 
+        OnHistoryForResultListener listener = new OnHistoryForResultListener() {
+            @Override
+            public void historyIconSelected() {
+                Intent explicitIntent = new Intent(SecondActivity.this, ThirdActivity.class);
+                startActivity(explicitIntent);
+            }
+        };
+
+        super.setListener(listener);
 
         if (getIntent().getExtras() != null) {
             pmodel = getIntent().getParcelableExtra(Constants.EXTRA_MODEL);
