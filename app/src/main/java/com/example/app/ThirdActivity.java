@@ -41,10 +41,6 @@ public class ThirdActivity extends BaseActivity {
                 explicitIntent.putExtra(Constants.EXTRA_TITLE, title);
                 startActivity(explicitIntent);
 
-//                Intent intent = new Intent();
-//                intent.putExtra(Constants.EXTRA_TITLE, title);
-//                setResult(RESULT_OK, intent);
-//                finish();
             }
         });
         recycler=findViewById(R.id.rv_recycler_history);

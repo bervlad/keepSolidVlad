@@ -113,18 +113,8 @@ public class FragmentChooser extends Fragment {
             @Override
             public void success(Response<VolumeResponse> response) {
 
-//                if (!response.isSuccessful()) {
-//                    items.clear();
-//                    items.addAll(response.body().getItems());
-//                    volumeRecyclerAdapter.notifyDataSetChanged();
-//
-//                    hideProgressBlock();
-//                }
-
-               // items.clear();
                 if (response.body().getItems()!=null) {
-//                    items.addAll(response.body().getItems());
-//                    volumeRecyclerAdapter.notifyDataSetChanged();
+
                    updateList(response.body().getItems());
                 } else makeErrorToast("No books found");
                 hideProgressBlock();

@@ -119,17 +119,4 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == Constants.TITLE_CODE) {
-//            if (data != null) {
-//                if (data.getExtras() != null) {
-//                    String title = data.getExtras().getString(Constants.EXTRA_TITLE);
-//                    fragmentChooser.performSearch(title);
-//                }
-//            }
-//        }
-//    }
 }
