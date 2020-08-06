@@ -56,7 +56,11 @@ public class VolumeRecyclerAdapter extends RecyclerView.Adapter<VolumeRecyclerAd
 
         holder.volumeTitle.setText(items.get(position).getTitle());
 
-        Glide.with(holder.logo).load(items.get(position).getVolumeInfo().getImageLinks().getSmallThumbnail()).placeholder(R.drawable.ic_book_open_page_variant).into(holder.logo);
+        if (items.get(position).getVolumeInfo().getImageLinks()!=null) {
+            Glide.with(holder.logo).load(items.get(position).getVolumeInfo().getImageLinks().getSmallThumbnail()).placeholder(R.drawable.ic_book_open_page_variant).into(holder.logo);
+        } else {
+            Glide.with(holder.logo).load(R.drawable.ic_book_open_page_variant).placeholder(R.drawable.ic_book_open_page_variant).into(holder.logo);
+        }
 
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
