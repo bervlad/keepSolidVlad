@@ -106,4 +106,11 @@ public class FragmentViewer extends BaseFragment implements ViewerContract.View 
     public void hideKeyboard() {
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.dropView();
+
+    }
 }

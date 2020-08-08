@@ -133,7 +133,7 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
             public void onClick(View view) {
               //  objectSelectListener.buttonSelected();
                 if (activity.isInLandscapeMode()) {
-                    fragmentViewer = (FragmentViewer) getFragmentManager().findFragmentById(R.id.fragment_two);
+                    fragmentViewer = (FragmentViewer) getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_two);
                     fragmentViewer.clearScreen();
                 }
 
@@ -142,16 +142,17 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
             }
         });
 
-        if (presenter!=null) {
-            presenter.takeView(this);
-        }
+        presenter.takeView(this);
+
         return v;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.dropView();
+        if (presenter!=null) {
+            presenter.dropView();
+        }
     }
 
     //    private void handleSearchAction() {
