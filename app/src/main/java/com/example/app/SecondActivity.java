@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 
 import com.example.app.base.BaseActivity;
-import com.example.app.fragment.FragmentViewer;
+import com.example.app.fragment.screens.viewer.FragmentViewer;
 import com.example.app.model.ParcableModel;
 import com.example.app.utils.listeners.Constants;
 import com.example.app.utils.listeners.OnHistoryForResultListener;

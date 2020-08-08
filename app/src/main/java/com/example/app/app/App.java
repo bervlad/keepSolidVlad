@@ -11,6 +11,7 @@ import com.example.app.utils.listeners.ApplicationManager;
 public class App extends Application {
 
     private AppDatabase appDatabase;
+    
 
     @Override
     public void onCreate() {

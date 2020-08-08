@@ -1,4 +1,4 @@
-package com.example.app.fragment;
+package com.example.app.fragment.screens.viewer;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;

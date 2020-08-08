@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.app.R;
-import com.example.app.fragment.FragmentChooser;
+import com.example.app.fragment.screens.chooser.FragmentChooser;
 import com.example.app.model.VolumeModelItem;
 import com.example.app.utils.listeners.OnVolumeItemRecyclerItemClickListener;
 

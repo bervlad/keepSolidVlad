@@ -3,9 +3,9 @@ package com.example.app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app.app.App;
@@ -14,15 +14,20 @@ import com.example.app.base.BaseActivity;
 import java.util.ArrayList;
 
 import com.example.app.database.AppDatabase;
-import com.example.app.fragment.FragmentChooser;
-import com.example.app.fragment.FragmentViewer;
+import com.example.app.fragment.screens.chooser.ChooserContract;
+import com.example.app.fragment.screens.chooser.FragmentChooser;
+import com.example.app.fragment.screens.viewer.FragmentViewer;
 import com.example.app.model.ParcableModel;
 import com.example.app.model.VolumeModelItem;
+import com.example.app.utils.listeners.ApplicationManager;
 import com.example.app.utils.listeners.Constants;
 import com.example.app.utils.listeners.ObjectSelectListener;
 import com.example.app.utils.listeners.OnHistoryForResultListener;
 
 public class MainActivity extends BaseActivity {
+
+    private FrameLayout fragmentContainerChooser;
+    private FrameLayout fragmentContainerViewer;
 
     private FragmentChooser fragmentChooser;
     private FragmentViewer fragmentViewer;
@@ -37,9 +42,13 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        fragmentContainerChooser = findViewById(R.id.fragment_container);
+
+
         initToolBarWithNav (getString(R.string.toolbar_title_main_activity));
 
-
+        ChooserContract.Presenter presenter;
+        ApplicationManager applicationSettingsManager = new ApplicationManager(MainActivity.this);
 
         inLandscapeMode = findViewById(R.id.fragment_two) != null;
 

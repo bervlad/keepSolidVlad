@@ -1,10 +1,13 @@
-package com.example.app.fragment;
+package com.example.app.fragment.screens.chooser;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +25,7 @@ import com.example.app.api.RestClient;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.app.base.BaseFragment;
 import com.example.app.database.AppDatabase;
 import com.example.app.model.VolumeErrorItem;
 import com.example.app.model.VolumeModelItem;
@@ -35,7 +39,7 @@ import com.example.app.utils.listeners.OnVolumeItemRecyclerItemClickListener;
 import retrofit2.Response;
 
 
-public class FragmentChooser extends Fragment {
+public class FragmentChooser extends BaseFragment implements ChooserContract.View {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -49,9 +53,30 @@ public class FragmentChooser extends Fragment {
     private ObjectSelectListener objectSelectListener;
     AppDatabase database;
 
+    private ChooserContract.Presenter presenter;
 
     public FragmentChooser() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void setPresenter(ChooserContract.Presenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void hideKeyboard() {
+
     }
 
     @Override
@@ -74,6 +99,8 @@ public class FragmentChooser extends Fragment {
         items=new ArrayList<> ();
 
         adapterInit();
+
+
 
         database =((MainActivity)getActivity()).getDatabase();
         if (database != null) {
@@ -149,8 +176,35 @@ public class FragmentChooser extends Fragment {
         }
     }
 
-    private void makeErrorToast(String errorMessage) {
+    @Override
+    public void showInputError() {
+        booknameInput.requestFocus();
+    }
+
+    @Override
+    public void showRequestError(@NonNull String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void makeErrorToast(String errorMessage) {
         Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void observeItems(LiveData<List<VolumeModelItem>> itemsLiveData) {
+        itemsLiveData.observe(FragmentChooser.this, new Observer<List<VolumeModelItem>>() {
+            @Override
+            public void onChanged(List<VolumeModelItem> volumeModelItems) {
+                items.clear();
+                items.addAll(volumeModelItems);
+                volumeRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void stopObserving(LiveData<List<VolumeModelItem>> liveRepoData) {
+        liveRepoData.removeObservers(FragmentChooser.this);
     }
 
     private void adapterInit() {

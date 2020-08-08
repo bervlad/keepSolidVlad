@@ -1,38 +1,36 @@
 package com.example.app.base;
 
-import android.content.Intent;
-import android.view.Menu;
+import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.example.app.R;
-import com.example.app.ThirdActivity;
 import com.example.app.app.App;
 import com.example.app.database.AppDatabase;
-import com.example.app.utils.listeners.Constants;
 import com.example.app.utils.listeners.OnHistoryForResultListener;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseFragment extends Fragment {
 
     private Toolbar toolbar;
-
-
     OnHistoryForResultListener listener;
 
 
-    public void initToolBar (String title) {
-        toolbar=findViewById(R.id.toolbar);
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    public void initToolBar (String title, View parentView) {
+        toolbar=parentView.findViewById(R.id.toolbar);
         toolbar.setTitle(title);
     }
 
-    public void initToolBarWithNav (String title) {
-        toolbar=findViewById(R.id.toolbar);
+    public void initToolBarWithNav (String title, View parentView) {
+        toolbar=parentView.findViewById(R.id.toolbar);
         toolbar.setTitle(title);
         toolbar.inflateMenu(R.menu.main);
 
@@ -40,7 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                getActivity().onBackPressed();
             }
         });
 
@@ -58,8 +56,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
     }
 
-    public void initToolBarWithHistory (String title) {
-        toolbar=findViewById(R.id.toolbar);
+    public void initToolBarWithHistory (String title, View parentView) {
+        toolbar=parentView.findViewById(R.id.toolbar);
         toolbar.setTitle(title);
 
         toolbar.setNavigationIcon(R.drawable.ic_alarm_multiple);
@@ -76,8 +74,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.listener = listener;
     }
 
-    public AppDatabase getDatabase() {
-        return ((App)getApplication()).getDatabase();
+    public Toolbar getToolbar() {
+        return toolbar;
     }
-
 }
