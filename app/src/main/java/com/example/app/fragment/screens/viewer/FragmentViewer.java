@@ -43,8 +43,6 @@ public class FragmentViewer extends BaseFragment implements ViewerContract.View 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-
         v = inflater.inflate(R.layout.fragment_viewer, container, false);
         v.findViewById(R.id.btn_link).setVisibility(View.INVISIBLE);
 
@@ -55,7 +53,6 @@ public class FragmentViewer extends BaseFragment implements ViewerContract.View 
 //        presenter.takeView(this);
 
         return v;
-
     }
 
     public void assignLink (Uri link) {

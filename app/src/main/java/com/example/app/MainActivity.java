@@ -82,17 +82,28 @@ public class MainActivity extends BaseActivity {
         chooserPresenter = new ChooserPresenter(applicationManager, getDatabase());
 
        // chooserPresenter = new ChooserPresenter(((App)getApplication()).getApplicationManager(), getDatabase());
-        FragmentChooser fragmentChooser=new FragmentChooser();
-        fragmentChooser.setPresenter(chooserPresenter);
 
-        getSupportFragmentManager().beginTransaction().add(fragmentContainerChooser.getId(), fragmentChooser).commit();
+            FragmentChooser fragmentChooser = new FragmentChooser();
 
-        if (inLandscapeMode) {
-            viewerPresenter = new ViewerPresenter();
-            FragmentViewer fragmentViewer=new FragmentViewer();
-            fragmentViewer.setPresenter(viewerPresenter);
-            getSupportFragmentManager().beginTransaction().add(fragmentContainerViewer.getId(), fragmentViewer).commit();
-        }
+
+            if (getSupportFragmentManager().findFragmentById(R.id.fragment_container_one)!=null) {
+                fragmentChooser = (FragmentChooser) getSupportFragmentManager().findFragmentById(R.id.fragment_container_one);
+            }
+
+            fragmentChooser.setPresenter(chooserPresenter);
+            getSupportFragmentManager().beginTransaction().replace(fragmentContainerChooser.getId(), fragmentChooser).commit();
+
+            if (inLandscapeMode) {
+                viewerPresenter = new ViewerPresenter();
+                FragmentViewer fragmentViewer = new FragmentViewer();
+
+                if (getSupportFragmentManager().findFragmentById(R.id.fragment_container_two)!=null) {
+                    fragmentViewer= (FragmentViewer) getSupportFragmentManager().findFragmentById(R.id.fragment_container_two);
+                }
+                fragmentViewer.setPresenter(viewerPresenter);
+                getSupportFragmentManager().beginTransaction().replace(fragmentContainerViewer.getId(), fragmentViewer).commit();
+            }
+
 
 
  //       fragmentChooser = (FragmentChooser) getSupportFragmentManager().findFragmentById(R.id.fragment_one);
@@ -172,15 +183,24 @@ public class MainActivity extends BaseActivity {
     public ViewerContract.Presenter getViewerPresenter() {
         return viewerPresenter;
     }
+//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+//        for (Fragment fragment: fragments) {
+//            getSupportFragmentManager().beginTransaction().remove(fragment).commitAllowingStateLoss();
+//        }
+//    }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        for (Fragment fragment: fragments) {
-            getSupportFragmentManager().beginTransaction().remove(fragment).commitAllowingStateLoss();
-        }
-        super.onSaveInstanceState(outState);
-    }
+//    @Override
+//    protected void onSaveInstanceState(@NonNull Bundle outState) {
+//        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+//        for (Fragment fragment: fragments) {
+//            getSupportFragmentManager().beginTransaction().remove(fragment).commitAllowingStateLoss();
+//        }
+//        super.onSaveInstanceState(outState);
+//    }
 
     //    private void showNameToast(String name) {
 //        Toast.makeText(MainActivity.this, name, Toast.LENGTH_LONG).show();
