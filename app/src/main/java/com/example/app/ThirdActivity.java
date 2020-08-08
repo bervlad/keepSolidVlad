@@ -29,15 +29,15 @@ public class ThirdActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
-        initToolBarWithNav ("Third Activity");
+        initToolBarWithNav("Third Activity");
 
-        items=new ArrayList<String>();
-        applicationManager = ((App)getApplication()).getApplicationManager();
-        if (applicationManager.getCachedItems()!=null) {
-            items= applicationManager.getCachedItems();
+        items = new ArrayList<String>();
+        applicationManager = ((App) getApplication()).getApplicationManager();
+        if (applicationManager.getCachedItems() != null) {
+            items = applicationManager.getCachedItems();
         }
 
-        adapter=new HistoryRecyclerAdapter(items, this, new OnHistoryRecyclerItemClickListener() {
+        adapter = new HistoryRecyclerAdapter(items, this, new OnHistoryRecyclerItemClickListener() {
             @Override
             public void onItemClick(View v, int position, String title) {
 
@@ -47,7 +47,7 @@ public class ThirdActivity extends BaseActivity {
 
             }
         });
-        recycler=findViewById(R.id.rv_recycler_history);
+        recycler = findViewById(R.id.rv_recycler_history);
         recycler.setLayoutManager(new LinearLayoutManager(this));
         recycler.setAdapter(adapter);
 

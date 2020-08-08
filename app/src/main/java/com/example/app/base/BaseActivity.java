@@ -25,14 +25,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     OnHistoryForResultListener listener;
 
-
-    public void initToolBar (String title) {
-        toolbar=findViewById(R.id.toolbar);
+    public void initToolBar(String title) {
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(title);
     }
 
-    public void initToolBarWithNav (String title) {
-        toolbar=findViewById(R.id.toolbar);
+    public void initToolBarWithNav(String title) {
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(title);
         toolbar.inflateMenu(R.menu.main);
 
@@ -48,8 +47,8 @@ public abstract class BaseActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
-                if (id==R.id.action_item_history) {
-                    if (listener!=null) {
+                if (id == R.id.action_item_history) {
+                    if (listener != null) {
                         listener.historyIconSelected();
                     }
                 }
@@ -58,8 +57,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
     }
 
-    public void initToolBarWithHistory (String title) {
-        toolbar=findViewById(R.id.toolbar);
+    public void initToolBarWithHistory(String title) {
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(title);
 
         toolbar.setNavigationIcon(R.drawable.ic_alarm_multiple);
@@ -77,7 +76,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public AppDatabase getDatabase() {
-        return ((App)getApplication()).getDatabase();
+        return ((App) getApplication()).getDatabase();
     }
 
 }

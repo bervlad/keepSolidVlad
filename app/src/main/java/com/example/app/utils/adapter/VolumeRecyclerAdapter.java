@@ -73,7 +73,6 @@ public class VolumeRecyclerAdapter extends RecyclerView.Adapter<VolumeRecyclerAd
 
     }
 
-
     @Override
     public int getItemCount() {
         return items.size();

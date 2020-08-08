@@ -1,4 +1,5 @@
 package com.example.app.fragment.screens.chooser;
+
 import android.content.Context;
 import android.widget.Toast;
 
@@ -29,8 +30,8 @@ public class ChooserPresenter implements ChooserContract.Presenter {
 
 
     public ChooserPresenter(ApplicationManager applicationManager, AppDatabase database) {
-        this.applicationManager=applicationManager;
-        this.appDatabase=database;
+        this.applicationManager = applicationManager;
+        this.appDatabase = database;
     }
 
     @Override
@@ -43,7 +44,7 @@ public class ChooserPresenter implements ChooserContract.Presenter {
             }
 
 
-        view.hideKeyboard();
+            view.hideKeyboard();
         }
         view.showProgress();
 
@@ -59,7 +60,7 @@ public class ChooserPresenter implements ChooserContract.Presenter {
         if (isInitial) {
             applicationManager.updateCachedItems(query);
         }
-            loadVolumes(query, onRequestFinishedListener);
+        loadVolumes(query, onRequestFinishedListener);
     }
 
     @Override
@@ -83,13 +84,13 @@ public class ChooserPresenter implements ChooserContract.Presenter {
     }
 
     private void loadVolumes(String bookName, OnRequestFinishedListener onRequestFinishedListener) {
-       // showProgressBlock();
-        RestClient.getInstance().getService().getVolumes("intitle:"+ bookName).enqueue(new ApiCallback<VolumeResponse>() {
+
+        RestClient.getInstance().getService().getVolumes("intitle:" + bookName).enqueue(new ApiCallback<VolumeResponse>() {
 
             @Override
             public void success(Response<VolumeResponse> response) {
 
-                if (response.body().getItems()!=null) {
+                if (response.body().getItems() != null) {
                     updateList(response.body().getItems());
 
                     if (onRequestFinishedListener != null) {
@@ -97,13 +98,12 @@ public class ChooserPresenter implements ChooserContract.Presenter {
                     }
 
                 } else view.makeErrorToast("No books found");
-               // hideProgressBlock();
+
             }
 
             @Override
             public void failure(VolumeErrorItem volumeError) {
-//                handleError(volumeError);
-//                hideProgressBlock();
+
                 if (onRequestFinishedListener != null) {
                     onRequestFinishedListener.onRequestFinished(volumeError);
                 }
@@ -117,11 +117,5 @@ public class ChooserPresenter implements ChooserContract.Presenter {
         appDatabase.repoItemDao().deleteAll();
         appDatabase.repoItemDao().insert(itemsToUpdate);
     }
-
-//        public void performSearch (String title) {
-//        booknameInput.setText(title);
-//        loadVolumes(title);
-//    }
-
 
 }

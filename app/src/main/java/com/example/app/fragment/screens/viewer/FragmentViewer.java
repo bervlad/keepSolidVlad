@@ -45,12 +45,9 @@ public class FragmentViewer extends BaseFragment implements ViewerContract.View 
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_viewer, container, false);
 
-
-        v.findViewById(R.id.btn_link).setVisibility(View.VISIBLE);
+        v.findViewById(R.id.btn_link).setVisibility(View.GONE);
         btnLink=v.findViewById(R.id.btn_link);
         textView = v.findViewById(R.id.intent_data_text);
-
-//        presenter.takeView(this);
 
         return v;
     }
@@ -75,10 +72,15 @@ public class FragmentViewer extends BaseFragment implements ViewerContract.View 
         }
     }
 
-//    public void prepareForSearchedItem () {
-//        v.findViewById(R.id.btn_link).setVisibility(View.VISIBLE);
-//        v.findViewById(R.id.intent_data_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-//    }
+    public void prepareForSearchedItem () {
+        btnLink.setVisibility(View.VISIBLE);
+        textView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+    }
+
+    public void prepareForSearchItemHorizontal () {
+        btnLink.setVisibility(View.VISIBLE);
+    }
+
 
     public void setText (String textInput) {
         textView.setText(textInput);
@@ -110,10 +112,4 @@ public class FragmentViewer extends BaseFragment implements ViewerContract.View 
 
     }
 
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        presenter.dropView();
-//
-//    }
 }

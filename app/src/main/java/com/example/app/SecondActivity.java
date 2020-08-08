@@ -37,16 +37,14 @@ public class SecondActivity extends BaseActivity {
             pmodel = getIntent().getParcelableExtra(Constants.EXTRA_MODEL);
         }
 
-        String inputText = pmodel.toString() ;
-
+        String inputText = pmodel.toString();
 
         fragmentViewer = (FragmentViewer) getSupportFragmentManager().findFragmentById(R.id.fragment_two);
         fragmentViewer.setText(inputText);
         fragmentViewer.assignLink(pmodel.getSelflink());
+        fragmentViewer.prepareForSearchItemHorizontal();
 
     }
-
-
 
 
 }
