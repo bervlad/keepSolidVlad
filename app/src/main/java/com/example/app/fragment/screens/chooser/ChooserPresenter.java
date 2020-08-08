@@ -14,6 +14,7 @@ import com.example.app.model.VolumeErrorItem;
 import com.example.app.model.VolumeModelItem;
 import com.example.app.model.VolumeResponse;
 import com.example.app.utils.listeners.ApplicationManager;
+import com.example.app.utils.listeners.ObjectSelectListener;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class ChooserPresenter implements ChooserContract.Presenter {
     private ApplicationManager applicationManager;
     private AppDatabase appDatabase;
     private LiveData<List<VolumeModelItem>> liveVolumeData;
+
 
     public ChooserPresenter(ApplicationManager applicationManager, AppDatabase database) {
         this.applicationManager=applicationManager;
@@ -51,7 +53,7 @@ public class ChooserPresenter implements ChooserContract.Presenter {
                 }
             }
         };
-
+            applicationManager.updateCachedItems(query);
             loadVolumes(query, onRequestFinishedListener);
     }
 
@@ -85,6 +87,10 @@ public class ChooserPresenter implements ChooserContract.Presenter {
 
                 if (response.body().getItems()!=null) {
                     updateList(response.body().getItems());
+
+                    if (onRequestFinishedListener != null) {
+                        onRequestFinishedListener.onRequestFinished(null);
+                    }
 
                 } else view.makeErrorToast("No books found");
                // hideProgressBlock();

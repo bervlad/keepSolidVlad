@@ -15,13 +15,22 @@ import com.example.app.R;
 import com.example.app.ThirdActivity;
 import com.example.app.app.App;
 import com.example.app.database.AppDatabase;
+import com.example.app.utils.listeners.ApplicationManager;
 import com.example.app.utils.listeners.Constants;
 import com.example.app.utils.listeners.OnHistoryForResultListener;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
+    ApplicationManager manager;
 
+    public ApplicationManager getManager() {
+        return manager;
+    }
+
+    public void setManager(ApplicationManager manager) {
+        this.manager = manager;
+    }
 
     OnHistoryForResultListener listener;
 

@@ -9,14 +9,14 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
+<!--    <FrameLayout-->
+<!--        android:id="@+id/fragment_container"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
+
+
     <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-
-    <fragment
-        android:id="@+id/fragment_one"
+        android:id="@+id/fragment_container_one"
         android:name="com.example.app.fragment.screens.chooser.FragmentChooser"
         android:layout_width="250dp"
         android:layout_height="0dp"
@@ -26,8 +26,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <fragment
-        android:id="@+id/fragment_two"
+    <FrameLayout
+        android:id="@+id/fragment_container_two"
         android:name="com.example.app.fragment.screens.viewer.FragmentViewer"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -36,7 +36,7 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/fragment_one"
+        app:layout_constraintStart_toEndOf="@+id/fragment_container_one"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

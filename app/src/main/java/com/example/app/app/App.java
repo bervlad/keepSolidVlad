@@ -5,12 +5,14 @@ import android.util.Log;
 
 import androidx.room.Room;
 
+import com.example.app.MainActivity;
 import com.example.app.database.AppDatabase;
 import com.example.app.utils.listeners.ApplicationManager;
 
 public class App extends Application {
 
     private AppDatabase appDatabase;
+    private  ApplicationManager applicationManager;
     
 
     @Override
@@ -21,11 +23,16 @@ public class App extends Application {
                 .allowMainThreadQueries()
                 .build();
         appDatabase.repoItemDao().deleteAll();
-        ApplicationManager.cacheLoadedItems(this, null);
+      //  ApplicationManager.cacheLoadedItems(null);
+//        ApplicationManager applicationManager = new ApplicationManager(this);
+//        applicationManager.cacheLoadedItems(null);
     }
 
     public AppDatabase getDatabase() {
         return appDatabase;
     }
 
+    public ApplicationManager getApplicationManager() {
+        return applicationManager;
+    }
 }

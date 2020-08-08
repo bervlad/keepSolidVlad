@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.app.app.App;
 import com.example.app.base.BaseActivity;
 import com.example.app.utils.adapter.HistoryRecyclerAdapter;
 import com.example.app.utils.listeners.ApplicationManager;
@@ -29,8 +30,9 @@ public class ThirdActivity extends BaseActivity {
         initToolBarWithNav ("Third Activity");
 
         items=new ArrayList<String>();
-        if (ApplicationManager.getCachedItems(this)!=null) {
-            items= ApplicationManager.getCachedItems(this);
+        ApplicationManager applicationManager = getManager();
+        if (applicationManager.getCachedItems()!=null) {
+            items= applicationManager.getCachedItems();
         }
 
         adapter=new HistoryRecyclerAdapter(items, this, new OnHistoryRecyclerItemClickListener() {

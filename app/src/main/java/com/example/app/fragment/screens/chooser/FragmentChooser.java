@@ -1,5 +1,6 @@
 package com.example.app.fragment.screens.chooser;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.app.MainActivity;
 import com.example.app.R;
+import com.example.app.SecondActivity;
 import com.example.app.api.ApiCallback;
 import com.example.app.api.RestClient;
 
@@ -27,10 +29,13 @@ import java.util.List;
 
 import com.example.app.base.BaseFragment;
 import com.example.app.database.AppDatabase;
+import com.example.app.fragment.screens.viewer.FragmentViewer;
+import com.example.app.model.ParcableModel;
 import com.example.app.model.VolumeErrorItem;
 import com.example.app.model.VolumeModelItem;
 import com.example.app.model.VolumeResponse;
 import com.example.app.utils.listeners.ApplicationManager;
+import com.example.app.utils.listeners.Constants;
 import com.example.app.utils.listeners.KeyboardUtils;
 import com.example.app.utils.adapter.VolumeRecyclerAdapter;
 import com.example.app.utils.listeners.ObjectSelectListener;
@@ -51,7 +56,9 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
     private ArrayList <VolumeModelItem> items;
     VolumeRecyclerAdapter volumeRecyclerAdapter;
     private ObjectSelectListener objectSelectListener;
-    AppDatabase database;
+    private FragmentViewer fragmentViewer;
+    private MainActivity activity;
+    //AppDatabase database;
 
     private ChooserContract.Presenter presenter;
 
@@ -66,17 +73,17 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
 
     @Override
     public void showProgress() {
-
+        loaderBlock.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        loaderBlock.setVisibility(View.GONE);
     }
 
     @Override
     public void hideKeyboard() {
-
+        KeyboardUtils.hide(booknameInput);
     }
 
     @Override
@@ -98,87 +105,107 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
 
         items=new ArrayList<> ();
 
-        adapterInit();
-
-
-
-        database =((MainActivity)getActivity()).getDatabase();
-        if (database != null) {
-            database.repoItemDao().getAll().observe(this, (List<VolumeModelItem> volumeModelItems) -> {
-                items.clear();
-                items.addAll(volumeModelItems);
-                volumeRecyclerAdapter.notifyDataSetChanged();
-            });
+        activity = (MainActivity) getActivity();
+        if (activity.getIntent().getExtras() != null) {
+            String title = activity.getIntent().getStringExtra(Constants.EXTRA_TITLE);
+            presenter.searchVolumes(title);
         }
+
+        adapterInit(v);
+
+//
+//
+//        database =((MainActivity)getActivity()).getDatabase();
+//        if (database != null) {
+//            database.repoItemDao().getAll().observe(this, (List<VolumeModelItem> volumeModelItems) -> {
+//                items.clear();
+//                items.addAll(volumeModelItems);
+//                volumeRecyclerAdapter.notifyDataSetChanged();
+//            });
+//        }
 
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                objectSelectListener.buttonSelected();
-                handleSearchAction();
+              //  objectSelectListener.buttonSelected();
+                if (activity.isInLandscapeMode()) {
+                    fragmentViewer = (FragmentViewer) getFragmentManager().findFragmentById(R.id.fragment_two);
+                    fragmentViewer.clearScreen();
+                }
+
+                presenter.searchVolumes(booknameInput.getText().toString());
+               // handleSearchAction();
             }
         });
 
+        presenter.takeView(this);
         return v;
     }
 
-    private void handleSearchAction() {
-        if (TextUtils.isEmpty(booknameInput.getText().toString().trim())) {
-           booknameInput.requestFocus();
-           makeErrorToast("Please input text");
-        } else {
-            ApplicationManager.updateCachedItems(getContext(), booknameInput.getText().toString());
-            KeyboardUtils.hide(booknameInput);
-            loadVolumes(booknameInput.getText().toString());
-        }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.dropView();
     }
 
-    private void loadVolumes(String bookName) {
-        showProgressBlock();
-        RestClient.getInstance().getService().getVolumes("intitle:"+ bookName).enqueue(new ApiCallback<VolumeResponse>() {
+    //    private void handleSearchAction() {
+//        if (TextUtils.isEmpty(booknameInput.getText().toString().trim())) {
+//           booknameInput.requestFocus();
+//           makeErrorToast("Please input text");
+//        } else {
+//            ApplicationManager.updateCachedItems(getContext(), booknameInput.getText().toString());
+//            KeyboardUtils.hide(booknameInput);
+//            loadVolumes(booknameInput.getText().toString());
+//        }
+//    }
 
-            @Override
-            public void success(Response<VolumeResponse> response) {
+//    private void loadVolumes(String bookName) {
+//        showProgressBlock();
+//        RestClient.getInstance().getService().getVolumes("intitle:"+ bookName).enqueue(new ApiCallback<VolumeResponse>() {
+//
+//            @Override
+//            public void success(Response<VolumeResponse> response) {
+//
+//                if (response.body().getItems()!=null) {
+//
+//                   updateList(response.body().getItems());
+//                } else makeErrorToast("No books found");
+//                hideProgressBlock();
+//            }
+//
+//            @Override
+//            public void failure(VolumeErrorItem volumeError) {
+//                handleError(volumeError);
+//                hideProgressBlock();
+//            }
+//
+//        });
+//    }
 
-                if (response.body().getItems()!=null) {
-
-                   updateList(response.body().getItems());
-                } else makeErrorToast("No books found");
-                hideProgressBlock();
-            }
-
-            @Override
-            public void failure(VolumeErrorItem volumeError) {
-                handleError(volumeError);
-                hideProgressBlock();
-            }
-
-        });
-    }
-
-    private void handleError(VolumeErrorItem volumeError) {
-        if (TextUtils.isEmpty(volumeError.getDocumentation_url())) {
-            makeErrorToast(volumeError.getMessage());
-        } else {
-            makeErrorToast(volumeError.getMessage() + ", Details: " + volumeError.getDocumentation_url());
-        }
-    }
-
-    private void showProgressBlock() {
-        if (loaderBlock != null) {
-            loaderBlock.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void hideProgressBlock() {
-        if (loaderBlock != null) {
-            loaderBlock.setVisibility(View.GONE);
-        }
-    }
+//    private void handleError(VolumeErrorItem volumeError) {
+//        if (TextUtils.isEmpty(volumeError.getDocumentation_url())) {
+//            makeErrorToast(volumeError.getMessage());
+//        } else {
+//            makeErrorToast(volumeError.getMessage() + ", Details: " + volumeError.getDocumentation_url());
+//        }
+//    }
+//
+//    private void showProgressBlock() {
+//        if (loaderBlock != null) {
+//            loaderBlock.setVisibility(View.VISIBLE);
+//        }
+//    }
+//
+//    private void hideProgressBlock() {
+//        if (loaderBlock != null) {
+//            loaderBlock.setVisibility(View.GONE);
+//        }
+//    }
 
     @Override
     public void showInputError() {
         booknameInput.requestFocus();
+        makeErrorToast("Please input text");
     }
 
     @Override
@@ -207,13 +234,33 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
         liveRepoData.removeObservers(FragmentChooser.this);
     }
 
-    private void adapterInit() {
+    private void adapterInit(View v) {
         volumeRecyclerAdapter =new VolumeRecyclerAdapter(items, this);
 
         volumeRecyclerAdapter.setListener(new OnVolumeItemRecyclerItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                objectSelectListener.selected(position);
+                //presenter.getListener().selected(position);
+
+                if (activity.isInLandscapeMode())
+                {
+                    fragmentViewer.setText(items.get(position).toString());
+                    fragmentViewer.assignLink(items.get(position).getSelflink());
+                    v.findViewById(R.id.btn_link).setVisibility(View.VISIBLE);
+                    v.findViewById(R.id.intent_data_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+                } else {
+                    ParcableModel pmodel = new ParcableModel(
+                            items.get(position).getTitle(),
+                            items.get(position).getAuthors(),
+                            items.get(position).getPublisher(),
+                            items.get(position).getDescription(),
+                            items.get(position).getSelflink());
+
+                    Intent explicitIntent = new Intent(activity, SecondActivity.class);
+                    explicitIntent.putExtra(Constants.EXTRA_MODEL, pmodel);
+                    startActivity(explicitIntent);
+                }
+
             }
         });
 
@@ -221,26 +268,28 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
         recyclerView.setAdapter(volumeRecyclerAdapter);
     }
 
-    public ArrayList<VolumeModelItem> getModels () {
-        return items;
-    }
+//    public ArrayList<VolumeModelItem> getModels () {
+//        return items;
+//    }
 
-    public void setDatabase(AppDatabase database) {
-        this.database = database;
-    }
 
-    public void setObjectSelectListener(ObjectSelectListener listener) {
-        this.objectSelectListener = listener;
-    }
 
-    public void performSearch (String title) {
-        booknameInput.setText(title);
-        loadVolumes(title);
-    }
+//    public void setDatabase(AppDatabase database) {
+//        this.database = database;
+//    }
+//
+//    public void setObjectSelectListener(ObjectSelectListener listener) {
+//        this.objectSelectListener = listener;
+//    }
 
-    private void updateList(List<VolumeModelItem> itemsToUpdate) {
-        database.repoItemDao().deleteAll();
-        database.repoItemDao().insert(itemsToUpdate);
-    }
+//    public void performSearch (String title) {
+//        booknameInput.setText(title);
+//        loadVolumes(title);
+//    }
+//
+//    private void updateList(List<VolumeModelItem> itemsToUpdate) {
+//        database.repoItemDao().deleteAll();
+//        database.repoItemDao().insert(itemsToUpdate);
+//    }
 
 }

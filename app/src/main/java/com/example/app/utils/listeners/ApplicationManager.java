@@ -22,21 +22,21 @@ public class ApplicationManager {
         return context.getSharedPreferences(Constants.HISTORY_DATA, Context.MODE_PRIVATE);
     }
 
-    public void cacheLoadedItems(Context context, ArrayList<String> items) {
+    public void cacheLoadedItems(ArrayList<String> items) {
         getPrefs().edit().putString(Constants.STRING_LIST, RestClient.getInstance().getGson().toJson(items)).apply();
     }
 
-    public void updateCachedItems(Context context, String item) {
+    public void updateCachedItems( String item) {
         ArrayList<String> listStrings = new ArrayList<String>();
-        if (getCachedItems(context) != null) {
-            listStrings = getCachedItems(context);
+        if (getCachedItems() != null) {
+            listStrings = getCachedItems();
         }
 
         listStrings.add(item);
-        cacheLoadedItems(context, listStrings);
+        cacheLoadedItems(listStrings);
     }
 
-    public ArrayList<String> getCachedItems(Context context) {
+    public ArrayList<String> getCachedItems() {
 
         Type listType = new TypeToken<ArrayList<String>>() {}.getType();
         String jsonList = getPrefs().getString(Constants.STRING_LIST, null);
