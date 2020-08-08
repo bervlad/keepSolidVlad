@@ -24,6 +24,7 @@ public class FragmentViewer extends BaseFragment implements ViewerContract.View 
     private String textInput;
     private AppCompatButton btnLink;
     private ViewerContract.Presenter presenter;
+    View v;
 
 
     public FragmentViewer() {
@@ -44,8 +45,8 @@ public class FragmentViewer extends BaseFragment implements ViewerContract.View 
         // Inflate the layout for this fragment
 
 
-        View v = inflater.inflate(R.layout.fragment_viewer, container, false);
-        v.findViewById(R.id.btn_link).setVisibility(View.GONE);
+        v = inflater.inflate(R.layout.fragment_viewer, container, false);
+        v.findViewById(R.id.btn_link).setVisibility(View.INVISIBLE);
 
       //  v.findViewById(R.id.btn_link).setVisibility(View.VISIBLE);
         btnLink=v.findViewById(R.id.btn_link);
@@ -75,6 +76,11 @@ public class FragmentViewer extends BaseFragment implements ViewerContract.View 
                     + " Please install a webbrowser", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
+    }
+
+    public void prepareForSearchedItem () {
+        v.findViewById(R.id.btn_link).setVisibility(View.VISIBLE);
+        v.findViewById(R.id.intent_data_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
     }
 
     public void setText (String textInput) {

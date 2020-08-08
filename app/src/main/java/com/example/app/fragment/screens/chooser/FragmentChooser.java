@@ -131,6 +131,9 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
         }
 
         adapterInit(v);
+        if (activity.isInLandscapeMode()) {
+            fragmentViewer = (FragmentViewer) getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container_two);
+        }
 
 //
 //
@@ -148,7 +151,7 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
             public void onClick(View view) {
               //  objectSelectListener.buttonSelected();
                 if (activity.isInLandscapeMode()) {
-                    fragmentViewer = (FragmentViewer) getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_two);
+                    fragmentViewer = (FragmentViewer) getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container_two);
                     fragmentViewer.clearScreen();
                 }
 
@@ -266,8 +269,9 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
                 {
                     fragmentViewer.setText(items.get(position).toString());
                     fragmentViewer.assignLink(items.get(position).getSelflink());
-                    v.findViewById(R.id.btn_link).setVisibility(View.VISIBLE);
-                    v.findViewById(R.id.intent_data_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+//                    v.findViewById(R.id.btn_link).setVisibility(View.VISIBLE);
+//                    v.findViewById(R.id.intent_data_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+                    fragmentViewer.prepareForSearchedItem();
                 } else {
                     ParcableModel pmodel = new ParcableModel(
                             items.get(position).getTitle(),

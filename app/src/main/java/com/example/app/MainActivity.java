@@ -60,8 +60,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.main);
         getSupportFragmentManager().getFragments().clear();
 
-
-
         inLandscapeMode = findViewById(R.id.fragment_container_two) != null;
         fragmentContainerChooser = findViewById(R.id.fragment_container_one);
         if (inLandscapeMode) {
