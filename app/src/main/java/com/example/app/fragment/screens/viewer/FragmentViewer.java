@@ -15,13 +15,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.app.R;
+import com.example.app.base.BaseFragment;
 
 
-public class FragmentViewer extends Fragment {
+public class FragmentViewer extends BaseFragment implements ViewerContract.View {
 
     private AppCompatTextView textView;
     private String textInput;
     private AppCompatButton btnLink;
+    private ViewerContract.Presenter presenter;
 
 
     public FragmentViewer() {
@@ -43,10 +45,13 @@ public class FragmentViewer extends Fragment {
 
 
         View v = inflater.inflate(R.layout.fragment_viewer, container, false);
+        v.findViewById(R.id.btn_link).setVisibility(View.GONE);
 
-        v.findViewById(R.id.btn_link).setVisibility(View.VISIBLE);
+      //  v.findViewById(R.id.btn_link).setVisibility(View.VISIBLE);
         btnLink=v.findViewById(R.id.btn_link);
         textView = v.findViewById(R.id.intent_data_text);
+
+        presenter.takeView(this);
 
         return v;
 
@@ -82,4 +87,23 @@ public class FragmentViewer extends Fragment {
     }
 
 
+    @Override
+    public void setPresenter(ViewerContract.Presenter presenter) {
+        this.presenter=presenter;
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void hideKeyboard() {
+
+    }
 }

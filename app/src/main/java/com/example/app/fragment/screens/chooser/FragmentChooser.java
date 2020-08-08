@@ -106,6 +106,8 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
         items=new ArrayList<> ();
 
         activity = (MainActivity) getActivity();
+        activity.initToolBarWithNav(getString(R.string.toolbar_title_main_activity));
+
         if (activity.getIntent().getExtras() != null) {
             String title = activity.getIntent().getStringExtra(Constants.EXTRA_TITLE);
             booknameInput.setText(title);
@@ -140,7 +142,9 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
             }
         });
 
-        presenter.takeView(this);
+        if (presenter!=null) {
+            presenter.takeView(this);
+        }
         return v;
     }
 

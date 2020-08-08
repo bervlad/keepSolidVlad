@@ -18,6 +18,8 @@ import com.example.app.fragment.screens.chooser.ChooserContract;
 import com.example.app.fragment.screens.chooser.ChooserPresenter;
 import com.example.app.fragment.screens.chooser.FragmentChooser;
 import com.example.app.fragment.screens.viewer.FragmentViewer;
+import com.example.app.fragment.screens.viewer.ViewerContract;
+import com.example.app.fragment.screens.viewer.ViewerPresenter;
 import com.example.app.model.ParcableModel;
 import com.example.app.model.VolumeModelItem;
 import com.example.app.utils.listeners.ApplicationManager;
@@ -54,7 +56,7 @@ public class MainActivity extends BaseActivity {
             fragmentContainerViewer=findViewById(R.id.fragment_container_two);
         }
 
-        initToolBarWithNav (getString(R.string.toolbar_title_main_activity));
+       // initToolBarWithNav (getString(R.string.toolbar_title_main_activity));
 
         ChooserContract.Presenter chooserPresenter;
        // ApplicationManager applicationManager = new ApplicationManager(MainActivity.this);
@@ -76,10 +78,10 @@ public class MainActivity extends BaseActivity {
         getSupportFragmentManager().beginTransaction().add(fragmentContainerChooser.getId(), fragmentChooser).commit();
 
         if (inLandscapeMode) {
+            ViewerContract.Presenter viewerPresenter = new ViewerPresenter();
             FragmentViewer fragmentViewer=new FragmentViewer();
-
-           // fragmentViewer.setPresenter (presenter);
-           // getSupportFragmentManager().beginTransaction().add(fragmentContainerViewer.getId(), fragmentViewer).commit();
+            fragmentViewer.setPresenter(viewerPresenter);
+            getSupportFragmentManager().beginTransaction().add(fragmentContainerViewer.getId(), fragmentViewer).commit();
         }
 
 
