@@ -34,14 +34,17 @@ public class ChooserPresenter implements ChooserContract.Presenter {
     }
 
     @Override
-    public void searchVolumes(@NonNull String query) {
+    public void searchVolumes(@NonNull String query, boolean isInitial) {
 
-        if (query.trim().isEmpty()) {
-            view.showInputError();
-            return;
-        }
+        if (isInitial) {
+            if (query.trim().isEmpty()) {
+                view.showInputError();
+                return;
+            }
+
 
         view.hideKeyboard();
+        }
         view.showProgress();
 
         OnRequestFinishedListener onRequestFinishedListener = new OnRequestFinishedListener() {
@@ -53,7 +56,9 @@ public class ChooserPresenter implements ChooserContract.Presenter {
                 }
             }
         };
+        if (isInitial) {
             applicationManager.updateCachedItems(query);
+        }
             loadVolumes(query, onRequestFinishedListener);
     }
 
@@ -113,6 +118,11 @@ public class ChooserPresenter implements ChooserContract.Presenter {
         appDatabase.repoItemDao().deleteAll();
         appDatabase.repoItemDao().insert(itemsToUpdate);
     }
+
+//        public void performSearch (String title) {
+//        booknameInput.setText(title);
+//        loadVolumes(title);
+//    }
 
 
 }

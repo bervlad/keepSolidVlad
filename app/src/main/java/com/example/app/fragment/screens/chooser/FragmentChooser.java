@@ -108,7 +108,9 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
         activity = (MainActivity) getActivity();
         if (activity.getIntent().getExtras() != null) {
             String title = activity.getIntent().getStringExtra(Constants.EXTRA_TITLE);
-            presenter.searchVolumes(title);
+            booknameInput.setText(title);
+            presenter.takeView(this);
+            presenter.searchVolumes(title, false);
         }
 
         adapterInit(v);
@@ -133,7 +135,7 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
                     fragmentViewer.clearScreen();
                 }
 
-                presenter.searchVolumes(booknameInput.getText().toString());
+                presenter.searchVolumes(booknameInput.getText().toString(), true);
                // handleSearchAction();
             }
         });

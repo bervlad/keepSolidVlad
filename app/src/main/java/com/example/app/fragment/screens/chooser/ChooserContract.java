@@ -22,7 +22,7 @@ public interface ChooserContract {
 
     interface Presenter extends BasePresenter<View> {
 
-       void searchVolumes(@NonNull String query);
+       void searchVolumes(@NonNull String query, boolean isInitial);
 
     }
 }

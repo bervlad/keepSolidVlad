@@ -22,6 +22,8 @@ public class ThirdActivity extends BaseActivity {
     private RecyclerView recycler;
     private ArrayList<String> items;
     private HistoryRecyclerAdapter adapter;
+    private ApplicationManager applicationManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,7 @@ public class ThirdActivity extends BaseActivity {
         initToolBarWithNav ("Third Activity");
 
         items=new ArrayList<String>();
-        ApplicationManager applicationManager = getManager();
+        applicationManager = ((App)getApplication()).getApplicationManager();
         if (applicationManager.getCachedItems()!=null) {
             items= applicationManager.getCachedItems();
         }

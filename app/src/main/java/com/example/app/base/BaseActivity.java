@@ -22,15 +22,6 @@ import com.example.app.utils.listeners.OnHistoryForResultListener;
 public abstract class BaseActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    ApplicationManager manager;
-
-    public ApplicationManager getManager() {
-        return manager;
-    }
-
-    public void setManager(ApplicationManager manager) {
-        this.manager = manager;
-    }
 
     OnHistoryForResultListener listener;
 

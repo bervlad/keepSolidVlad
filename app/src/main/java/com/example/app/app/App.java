@@ -13,7 +13,11 @@ public class App extends Application {
 
     private AppDatabase appDatabase;
     private  ApplicationManager applicationManager;
-    
+
+
+    public void setApplicationManager(ApplicationManager applicationManager) {
+        this.applicationManager = applicationManager;
+    }
 
     @Override
     public void onCreate() {
@@ -25,7 +29,8 @@ public class App extends Application {
         appDatabase.repoItemDao().deleteAll();
       //  ApplicationManager.cacheLoadedItems(null);
 //        ApplicationManager applicationManager = new ApplicationManager(this);
-//        applicationManager.cacheLoadedItems(null);
+        ApplicationManager manager = new ApplicationManager(this);
+        manager.cacheLoadedItems(null);
     }
 
     public AppDatabase getDatabase() {

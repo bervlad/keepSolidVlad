@@ -27,6 +27,7 @@ import com.example.app.utils.listeners.OnHistoryForResultListener;
 
 public class MainActivity extends BaseActivity {
 
+    ApplicationManager applicationManager;
     private FrameLayout fragmentContainerChooser;
     private FrameLayout fragmentContainerViewer;
 
@@ -58,8 +59,13 @@ public class MainActivity extends BaseActivity {
         ChooserContract.Presenter chooserPresenter;
        // ApplicationManager applicationManager = new ApplicationManager(MainActivity.this);
 
-        ApplicationManager applicationManager = new ApplicationManager(this);
-        setManager(applicationManager);
+       if ( ((App)getApplication()).getApplicationManager()!=null) {
+           applicationManager=((App)getApplication()).getApplicationManager();
+       } else {
+           applicationManager = new ApplicationManager(this);
+           ((App) getApplication()).setApplicationManager(applicationManager);
+       }
+        //setManager(applicationManager);
 
         chooserPresenter = new ChooserPresenter(applicationManager, getDatabase());
 
