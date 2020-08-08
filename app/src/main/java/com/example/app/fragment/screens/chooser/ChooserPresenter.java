@@ -67,7 +67,6 @@ public class ChooserPresenter implements ChooserContract.Presenter {
         this.view = view;
         liveVolumeData = appDatabase.repoItemDao().getAll();
         view.observeItems(liveVolumeData);
-
     }
 
     @Override

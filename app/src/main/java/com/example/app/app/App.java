@@ -7,12 +7,14 @@ import androidx.room.Room;
 
 import com.example.app.MainActivity;
 import com.example.app.database.AppDatabase;
+import com.example.app.fragment.screens.chooser.ChooserContract;
 import com.example.app.utils.listeners.ApplicationManager;
 
 public class App extends Application {
 
     private AppDatabase appDatabase;
     private  ApplicationManager applicationManager;
+
 
 
     public void setApplicationManager(ApplicationManager applicationManager) {

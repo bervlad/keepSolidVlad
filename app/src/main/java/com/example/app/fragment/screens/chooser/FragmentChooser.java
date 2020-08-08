@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.app.MainActivity;
 import com.example.app.R;
 import com.example.app.SecondActivity;
+import com.example.app.ThirdActivity;
 import com.example.app.api.ApiCallback;
 import com.example.app.api.RestClient;
 
@@ -39,6 +40,7 @@ import com.example.app.utils.listeners.Constants;
 import com.example.app.utils.listeners.KeyboardUtils;
 import com.example.app.utils.adapter.VolumeRecyclerAdapter;
 import com.example.app.utils.listeners.ObjectSelectListener;
+import com.example.app.utils.listeners.OnHistoryForResultListener;
 import com.example.app.utils.listeners.OnVolumeItemRecyclerItemClickListener;
 
 import retrofit2.Response;
@@ -98,6 +100,7 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
 
         View v = inflater.inflate(R.layout.fragment_chooser, container, false);
 
+
         loaderBlock = v.findViewById(R.id.loader_block);
         recyclerView=v.findViewById(R.id.rv_recycler);
         booknameInput=v.findViewById(R.id.et_bookname_input);
@@ -107,10 +110,22 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
 
         activity = (MainActivity) getActivity();
         activity.initToolBarWithNav(getString(R.string.toolbar_title_main_activity));
+       // if (presenter==null) {activity.getChooserPresenter();}
+
+        OnHistoryForResultListener onHistoryForResultListener = new OnHistoryForResultListener() {
+
+            @Override
+            public void historyIconSelected() {
+                Intent explicitIntent = new Intent(activity, ThirdActivity.class);
+                startActivity(explicitIntent);
+            }
+        };
+        activity.setListener(onHistoryForResultListener);
 
         if (activity.getIntent().getExtras() != null) {
             String title = activity.getIntent().getStringExtra(Constants.EXTRA_TITLE);
             booknameInput.setText(title);
+
             presenter.takeView(this);
             presenter.searchVolumes(title, false);
         }
@@ -142,7 +157,7 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
             }
         });
 
-        presenter.takeView(this);
+      presenter.takeView(this);
 
         return v;
     }
@@ -151,7 +166,6 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
     public void onDestroy() {
         super.onDestroy();
         presenter.dropView();
-
     }
 
     //    private void handleSearchAction() {
