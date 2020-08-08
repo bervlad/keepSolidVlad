@@ -150,9 +150,8 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (presenter!=null) {
-            presenter.dropView();
-        }
+        presenter.dropView();
+
     }
 
     //    private void handleSearchAction() {

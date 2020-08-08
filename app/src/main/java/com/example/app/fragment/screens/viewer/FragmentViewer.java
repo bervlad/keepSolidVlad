@@ -51,7 +51,7 @@ public class FragmentViewer extends BaseFragment implements ViewerContract.View 
         btnLink=v.findViewById(R.id.btn_link);
         textView = v.findViewById(R.id.intent_data_text);
 
-        presenter.takeView(this);
+//        presenter.takeView(this);
 
         return v;
 
@@ -107,10 +107,10 @@ public class FragmentViewer extends BaseFragment implements ViewerContract.View 
 
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        presenter.dropView();
-
-    }
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        presenter.dropView();
+//
+//    }
 }
