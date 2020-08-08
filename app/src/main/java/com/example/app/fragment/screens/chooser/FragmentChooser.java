@@ -269,9 +269,10 @@ public class FragmentChooser extends BaseFragment implements ChooserContract.Vie
                 {
                     fragmentViewer.setText(items.get(position).toString());
                     fragmentViewer.assignLink(items.get(position).getSelflink());
+
 //                    v.findViewById(R.id.btn_link).setVisibility(View.VISIBLE);
 //                    v.findViewById(R.id.intent_data_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-                    fragmentViewer.prepareForSearchedItem();
+//                    fragmentViewer.prepareForSearchedItem();
                 } else {
                     ParcableModel pmodel = new ParcableModel(
                             items.get(position).getTitle(),
